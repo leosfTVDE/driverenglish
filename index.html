@@ -62,6 +62,16 @@ p{margin:0}
 .ltxt{background:var(--soft);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:600;font-size:17px}
 .lhelp{background:var(--warm-soft);border-radius:12px;padding:10px 12px;margin-top:10px;text-align:left;font-size:14px}
 .lhelp b{color:var(--warm)}
+.tok.bad{border-color:var(--err);background:var(--err-soft);color:var(--err)}
+.retry{background:var(--err-soft);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:14px}
+.retry b{color:var(--err)}
+.cmp{font-size:16px;margin-top:2px;line-height:1.5}.cmp.b{font-weight:600}
+.wr{color:var(--err);font-weight:700}.rt{color:var(--ok);font-weight:700}
+.why{background:var(--warm-soft);border-radius:14px;padding:12px 14px;margin-top:12px;font-size:14px;line-height:1.45}
+.why b{color:var(--warm)}
+.execb{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px;margin-top:12px}
+.tipb{background:var(--pri-soft);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:13px}
+.chip.exec{background:var(--warm-soft);color:var(--warm)}
 .say{display:inline-flex;gap:8px;margin-top:12px;align-items:center}
 .link{background:none;border:0;color:var(--pri);font-weight:600;padding:10px 4px;min-height:44px}
 .prog{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin:4px 0 16px}
@@ -248,46 +258,46 @@ const CATS=[
 ];
 const CTX={aeroporto:"Aeroporto",viagem:"Durante a viagem",conforto:"Conforto",pagamento:"Pagamento",hora:"Serviço por hora",tour:"Tours",imprevistos:"Imprevistos",despedida:"Despedida"};
 const PH=[
-["Good morning. My name is Leonardo, I’m your driver.","Bom dia. Meu nome é Leonardo, sou seu motorista.","aeroporto",""],
-["Are you Mr. Smith?","O senhor é o Sr. Smith?","aeroporto","Use “Mr.” para homem e “Ms.” para mulher."],
-["Welcome to Lisbon.","Bem-vindo a Lisboa.","aeroporto",""],
-["How was your flight?","Como foi seu voo?","aeroporto","Pergunta simpática para começar a conversa."],
-["May I help you with your luggage?","Posso ajudar com sua bagagem?","aeroporto","“May I” é mais educado que “Can I”. Ótimo para transfer executivo."],
-["Please follow me, the car is this way.","Por favor, me acompanhe, o carro é por aqui.","aeroporto",""],
-["Is this all your luggage?","Essa é toda a sua bagagem?","aeroporto",""],
-["Where would you like to go?","Para onde gostaria de ir?","viagem","“Would you like” é a forma educada de “você quer”."],
-["Could you confirm the address, please?","Pode confirmar o endereço, por favor?","viagem",""],
-["The journey will take about thirty minutes.","A viagem vai levar uns trinta minutos.","viagem","“About” = mais ou menos."],
-["There is some traffic, but we’re doing fine.","Tem um pouco de trânsito, mas estamos bem.","viagem",""],
-["Would you prefer a different route?","Prefere outro percurso?","viagem",""],
-["We are almost there.","Estamos quase chegando.","viagem",""],
-["Here we are.","Chegamos.","viagem","É o jeito natural de dizer “chegamos”. “We arrived” soa estranho aqui."],
-["Is the temperature comfortable for you?","A temperatura está confortável?","conforto",""],
-["Would you like some music?","Gostaria de ouvir música?","conforto",""],
-["There is water and a charger if you need.","Tem água e carregador, se precisar.","conforto",""],
-["Please fasten your seatbelt.","Por favor, coloque o cinto.","conforto",""],
-["Let me know if you need anything.","Me avise se precisar de algo.","conforto",""],
-["The price is fixed, tolls included.","O preço é fixo, com portagens incluídas.","pagamento",""],
-["You can pay by card or cash.","Pode pagar com cartão ou dinheiro.","pagamento","Diga “by card”, mas “in cash”. Aqui “card or cash” funciona junto."],
-["Would you like a receipt?","Gostaria de um recibo?","pagamento",""],
-["The payment is done in the app.","O pagamento é feito no app.","pagamento",""],
-["Waiting time is included up to one hour.","O tempo de espera está incluído até uma hora.","hora",""],
-["I’ll wait for you here. Take your time.","Vou esperar aqui. Sem pressa.","hora","“Take your time” = sem pressa, fique à vontade."],
-["What time should I pick you up?","A que horas devo buscar você?","hora",""],
-["Our first stop is Pena Palace.","Nossa primeira parada é o Palácio da Pena.","tour",""],
-["We’ll have about two hours here.","Vamos ter umas duas horas aqui.","tour",""],
-["I recommend trying a pastel de nata.","Recomendo provar um pastel de nata.","tour","Depois de “recommend” o verbo vai com -ing: “trying”."],
-["Would you like to stop for photos?","Quer parar para tirar fotos?","tour",""],
-["Sorry for the delay, there was heavy traffic.","Desculpe o atraso, tinha muito trânsito.","imprevistos","Trânsito forte é “heavy traffic”, não “big traffic”."],
-["No problem, I was following your flight.","Sem problema, eu estava acompanhando seu voo.","imprevistos",""],
-["The road is closed, I’ll take another way.","A estrada está fechada, vou por outro caminho.","imprevistos",""],
-["Would you like to change the destination?","Quer mudar o destino?","imprevistos",""],
-["Could you repeat that, please?","Pode repetir, por favor?","imprevistos","Frase salva-vidas quando você não entender."],
-["Could you speak a little slower, please?","Pode falar um pouco mais devagar, por favor?","imprevistos","Outra frase salva-vidas. Usar não é vergonha."],
-["Thank you for choosing our service.","Obrigado por escolher nosso serviço.","despedida",""],
-["Have a pleasant stay in Lisbon.","Tenha uma ótima estadia em Lisboa.","despedida",""],
-["Have a safe flight.","Tenha um bom voo.","despedida",""],
-["Don’t forget your belongings.","Não esqueça seus pertences.","despedida","“Belongings” = objetos pessoais."]
+["Good morning. My name is Leonardo, I’m your driver.","Bom dia. Meu nome é Leonardo, sou seu motorista.","aeroporto","","Good morning. My name is Leonardo, and I’ll be your driver today.","A ordem é igual à do português: “My name is” = “Meu nome é”. “I’m” é a forma curta de “I am” (eu sou)."],
+["Are you Mr. Smith?","O senhor é o Sr. Smith?","aeroporto","Use “Mr.” para homem e “Ms.” para mulher.","","Na pergunta, o verbo vem antes da pessoa: “You are” = você é; “Are you…?” = você é…?"],
+["Welcome to Lisbon.","Bem-vindo a Lisboa.","aeroporto","","Welcome to Lisbon. It’s a pleasure to have you here.","“Welcome to” = bem-vindo a. A ordem é igual à do português."],
+["How was your flight?","Como foi seu voo?","aeroporto","Pergunta simpática para começar a conversa.","I hope you had a pleasant flight.","Perguntas com “how” (como) começam por ele: “How was” = como foi."],
+["Can I help you with your luggage?","Posso ajudar com sua bagagem?","aeroporto","","May I help you with your luggage?","A pergunta começa pelo verbo: “Can I” = posso eu. Depois vem “help you” (ajudar você) e “with your luggage” (com sua bagagem). Na versão executiva, “May” fica no lugar de “Can”: é mais formal."],
+["Please follow me, the car is this way.","Por favor, me acompanhe, o carro é por aqui.","aeroporto","","Please follow me, the car is right this way.","“Please” pode abrir a frase, como “por favor” em português. “This way” = por aqui."],
+["Is this all your luggage?","Essa é toda a sua bagagem?","aeroporto","","","Na pergunta, o verbo vem antes: “This is” = isto é; “Is this…?” = isto é…?"],
+["Where do you want to go?","Para onde você quer ir?","viagem","","Where would you like to go?","Perguntas com “where” (onde) usam “do” antes da pessoa. O “do” não se traduz, só marca que é pergunta. Na versão executiva, “would you like” (gostaria) é mais educado que “want” (quer)."],
+["Can you confirm the address, please?","Pode confirmar o endereço, por favor?","viagem","","Could you confirm the address, please?","O pedido começa com “Can you” (você pode). “Please” no fim soa natural. Na versão executiva, “Could you” (você poderia) é mais educado."],
+["The trip will take about thirty minutes.","A viagem vai levar uns trinta minutos.","viagem","","The journey will take approximately thirty minutes.","“Will” indica futuro: “will take” = vai levar. “About” = mais ou menos."],
+["There is some traffic, but we’re doing fine.","Tem um pouco de trânsito, mas estamos bem.","viagem","","","“There is” = tem, há. “We’re” é a forma curta de “we are” (nós estamos)."],
+["Do you want a different route?","Quer outro caminho?","viagem","","Would you prefer a different route?","“Do you want” = você quer. O “do” só marca a pergunta. Na versão executiva, “Would you prefer” (preferiria) é mais educado."],
+["We are almost there.","Estamos quase chegando.","viagem","","","Ao pé da letra é “estamos quase lá”: “almost” = quase, “there” = lá."],
+["Here we are.","Chegamos.","viagem","É o jeito natural de dizer “chegamos”. “We arrived” soa estranho aqui.","","É uma expressão pronta: ao pé da letra “aqui estamos”, mas significa “chegamos”."],
+["Is the temperature okay for you?","A temperatura está boa para você?","conforto","","Is the temperature comfortable for you?","Na pergunta, o verbo “is” vem antes de “the temperature”. “For you” = para você."],
+["Do you want some music?","Quer ouvir música?","conforto","","Would you like some music?","“Do you want” = você quer. Na versão executiva, “Would you like” = você gostaria."],
+["There is water and a charger if you need.","Tem água e carregador, se precisar.","conforto","","","“There is” = tem. “If you need” = se precisar, no fim da frase, como em português."],
+["Please fasten your seatbelt.","Por favor, coloque o cinto.","conforto","","","“Fasten” = prender. Em inglês não se “coloca” o cinto: se “prende” o cinto."],
+["Let me know if you need anything.","Me avise se precisar de algo.","conforto","","","“Let me know” = me avise. Ao pé da letra é “me deixe saber”: é uma expressão pronta."],
+["The price is fixed, tolls included.","O preço é fixo, com portagens incluídas.","pagamento","","","“Tolls included” = portagens incluídas: “included” vem depois, como em português."],
+["You can pay by card or cash.","Pode pagar com cartão ou dinheiro.","pagamento","Diga “by card”, mas “in cash”. Aqui “card or cash” funciona junto.","","“You can” = você pode. “By card” = com cartão."],
+["Do you want a receipt?","Quer recibo?","pagamento","","Would you like a receipt?","“Do you want” = você quer. A versão executiva usa “Would you like” (gostaria)."],
+["The payment is done in the app.","O pagamento é feito no app.","pagamento","","","“Is done” = é feito. “In the app” = no app."],
+["Waiting time is included up to one hour.","O tempo de espera está incluído até uma hora.","hora","","","“Up to” = até. Em “waiting time”, a característica (“waiting”, espera) vem antes da coisa (“time”, tempo)."],
+["I’ll wait for you here. Take your time.","Vou esperar aqui. Sem pressa.","hora","“Take your time” = sem pressa, fique à vontade.","","“I’ll” = “I will” (eu vou). “Wait” pede o “for”: “wait for you” = esperar você."],
+["What time should I pick you up?","A que horas devo buscar você?","hora","","","“What time” (que horas) abre a pergunta. Em “pick you up” (buscar você), o “up” vai no fim, depois de “you”."],
+["Our first stop is Pena Palace.","Nossa primeira parada é o Palácio da Pena.","tour","","","“Our” (nossa) abre a frase, como em português. Mas no nome do lugar a ordem inverte: “Pena Palace” = Palácio da Pena."],
+["We’ll have about two hours here.","Vamos ter umas duas horas aqui.","tour","","","“We’ll” = “we will” (nós vamos). “About” = umas, mais ou menos."],
+["You should try a pastel de nata.","Você deveria provar um pastel de nata.","tour","","I recommend trying a pastel de nata.","“You should” = você deveria: é uma sugestão. Na versão executiva, “I recommend” pede o verbo com -ing: “trying”."],
+["Do you want to stop for photos?","Quer parar para tirar fotos?","tour","","Would you like to stop for photos?","“Do you want to” = você quer. “Stop for photos” = parar para fotos."],
+["Sorry for the delay, there was a lot of traffic.","Desculpe o atraso, tinha muito trânsito.","imprevistos","","I apologize for the delay, there was heavy traffic.","“There was” = tinha, havia. “A lot of” = muito. Na versão executiva: “I apologize” (peço desculpas) e “heavy traffic” (trânsito pesado)."],
+["No problem, I was following your flight.","Sem problema, eu estava acompanhando seu voo.","imprevistos","","","“I was following” = eu estava acompanhando: “was” + verbo com -ing, igual a “estava” + “-ndo”."],
+["The road is closed, I’ll take another way.","A estrada está fechada, vou por outro caminho.","imprevistos","","","“Is closed” = está fechada. “I’ll take” = vou pegar."],
+["Do you want to change the destination?","Quer mudar o destino?","imprevistos","","Would you like to change the destination?","“Do you want to” = você quer. A versão executiva usa “Would you like to” (gostaria de)."],
+["Can you repeat that, please?","Pode repetir, por favor?","imprevistos","Frase salva-vidas quando você não entender.","Could you repeat that, please?","“Can you” = você pode. Em inglês é preciso dizer o que repetir: “that” = isso."],
+["Can you speak a little slower, please?","Pode falar um pouco mais devagar, por favor?","imprevistos","Outra frase salva-vidas. Usar não é vergonha.","Could you speak a little slower, please?","O pedido começa com “Can you”. “Slower” já significa “mais devagar”, e “a little” = um pouco."],
+["Thank you for choosing our service.","Obrigado por escolher nosso serviço.","despedida","","","Depois de “Thank you for”, o verbo vem com -ing: “choosing” (escolher)."],
+["Have a nice stay in Lisbon.","Tenha uma boa estadia em Lisboa.","despedida","","Have a pleasant stay in Lisbon.","“Have a nice…” = tenha um bom… Serve para tudo: “Have a nice day” = tenha um bom dia."],
+["Have a safe flight.","Tenha um bom voo.","despedida","","","Ao pé da letra é “tenha um voo seguro”. É o jeito comum de desejar boa viagem a quem vai voar."],
+["Don’t forget your things.","Não esqueça suas coisas.","despedida","","Please don’t forget your belongings.","“Don’t” = “do not” (não). “Things” = coisas. Na versão executiva, “belongings” = pertences."]
 ];
 const LI=[
 ["Could you turn the AC down a bit?","Pode baixar um pouco o ar?","Pode ligar o ar?","Está muito frio aqui.","Of course, no problem."],
@@ -399,7 +409,7 @@ const LIX=[
 const SIMPT=[["Sim, sou eu. Bem-vindo a Lisboa!","Que pena. Deixe-me ajudar com sua bagagem."],["Perfeito. Vai levar uns vinte minutos.","Um pouco, mas estamos bem."],["Quer que eu deixe mais fresco?","Claro, aqui está um carregador."],["São quarenta euros, com portagens incluídas.","Sim, cartão ou dinheiro, tanto faz."],["Sem problema, eu estava acompanhando seu voo.","Claro. Pode me passar o novo endereço?"],["Recomendo o Palácio da Pena primeiro, antes de lotar.","Umas duas horas. Vou esperar no estacionamento."],["Obrigado! Tenha uma ótima estadia em Lisboa.","Sim, aqui está meu cartão. Pode me chamar quando quiser."]];
 const WORDS=[],byId={};
 CATS.forEach((c,ci)=>c.w.forEach(w=>{const o={id:"w"+WORDS.length,en:w[0],pt:w[1],pr:w[2],ex:w[3],expt:w[4],cat:ci};WORDS.push(o);byId[o.id]=o;}));
-const PHRASES=PH.map((p,i)=>{const o={id:"p"+i,en:p[0],pt:p[1],ctx:p[2],note:p[3]};byId[o.id]=o;return o;});
+const PHRASES=PH.map((p,i)=>{const o={id:"p"+i,en:p[0],pt:p[1],ctx:p[2],note:p[3],ex:p[4],why:p[5]};byId[o.id]=o;return o;});
 const LISTEN=LI.map((l,i)=>{const o={id:"l"+i,en:l[0],pt:l[1],w1:l[2],w2:l[3],r:l[4],rpt:LIX[i][0],h:LIX[i][1]};byId[o.id]=o;return o;});
 
 /* ---------- Utilidades ---------- */
@@ -505,7 +515,7 @@ function back(){cur=stack.pop()||{s:"home"};render();window.scrollTo(0,0);}
 const GNAMES={flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
 function header(){
  if(TABS.some(t=>t[0]===cur.s))return `<div class="brand">${LOGO}<span>DriverEnglish</span></div><button class="ibtn ghost" data-act="go" data-s="settings" aria-label="Configurações">${ic("user",24)}</button>`;
- let t={settings:"Configurações",library:"Vocabulário",phrases:"Frases profissionais",sims:"Simulação real"}[cur.s]||"";
+ let t={settings:"Configurações",library:"Vocabulário",phrases:"Frases profissionais",sims:"Simulação real",guide:"Can, Could ou May?"}[cur.s]||"";
  if(cur.s==="category")t=CATS[cur.c].n;
  if(cur.s==="game")t=G.type==="sim"?SIMS[G.si].t:GNAMES[G.type];
  if(cur.s==="session")t=S.session&&S.session.short?"Sessão de 5 minutos":"Sessão de hoje";
@@ -516,7 +526,7 @@ function render(){
  document.body.classList.toggle("focus",cur.s==="session"||cur.s==="game");
  $("#top").innerHTML=header();
  $("#view").innerHTML=(V[cur.s]||V.home)();
- const parent={library:"practice",category:"practice",phrases:"practice",sims:"practice"}[cur.s]||cur.s;
+ const parent={library:"practice",category:"practice",phrases:"practice",sims:"practice",guide:"practice"}[cur.s]||cur.s;
  $("#tabs").innerHTML=TABS.map(t=>`<button class="tab${parent===t[0]?" on":""}" data-act="tab" data-tab="${t[0]}"${parent===t[0]?' aria-current="page"':""}>${ic(t[2],24)}${t[1]}</button>`).join("");
 }
 function autoSpeak(){if(Q&&Q.auto&&Q.say&&TTS)speak(Q.say,false,Q.acc);}
@@ -543,23 +553,31 @@ function makeListen(l){
   after:`<div class="ex"><div class="en">“${esc(l.en)}”</div><div class="lbl" style="font-size:15px">${esc(l.pt)}</div><div class="lbl mt">Você pode responder:</div><div class="en">${esc(l.r)}</div><div class="lbl" style="font-size:15px">${esc(l.rpt)}</div>${sayBtns(l.r)}</div>`};
 }
 function makePhrase(p){introduce(p.id);save();
- return {type:"phrase",id:p.id,say:p.en,auto:true,html:`<div class="card"><span class="chip">${esc(CTX[p.ctx])}</span><div class="big2">${esc(p.en)}</div><div class="pt">${esc(p.pt)}</div>${p.note?`<div class="note">Dica: ${esc(p.note)}</div>`:""}<div class="row mt">${TTS?`<button class="btn" data-act="sayQ">${ic("vol",18)} Ouvir</button><button class="btn" data-act="sayQ" data-slow="1">Lento</button>`:""}${REC?`<button class="btn" id="recBtn" data-act="rec">${ic("mic",18)} Gravar</button>`:""}</div><div id="rec" class="row mt"></div></div><p class="note">Ouça, repita em voz alta${REC?" e, se quiser, grave para comparar":""}. A comparação é só para você ouvir: o app não avalia a pronúncia.</p><button class="btn pri wide mt" data-act="phraseDone">Já repeti em voz alta</button>`};
+ return {type:"phrase",id:p.id,say:p.en,auto:true,html:`<div class="card"><span class="chip">${esc(CTX[p.ctx])}</span><div class="big2">${esc(p.en)}</div><div class="pt">${esc(p.pt)}</div>${p.note?`<div class="note">Dica: ${esc(p.note)}</div>`:""}${execBox(p,false)}<div class="row mt">${TTS?`<button class="btn" data-act="sayQ">${ic("vol",18)} Ouvir</button><button class="btn" data-act="sayQ" data-slow="1">Lento</button>`:""}${REC?`<button class="btn" id="recBtn" data-act="rec">${ic("mic",18)} Gravar</button>`:""}</div><div id="rec" class="row mt"></div></div><p class="note">Ouça, repita em voz alta${REC?" e, se quiser, grave para comparar":""}. A comparação é só para você ouvir: o app não avalia a pronúncia.</p><button class="btn pri wide mt" data-act="phraseDone">Já repeti em voz alta</button>`};
 }
-function makeBuild(p){const words=p.en.split(" ");return {type:"build",id:p.id,say:p.en,words,pool:shuffle(words.map((t,i)=>({t,i}))),picked:[],done:false,fb:""};}
+function pText(p){return p.ex&&mastered(p.id)?{t:p.ex,x:true}:{t:p.en,x:false};}
+const whyBox=p=>p.why?`<div class="why"><b>Por que é assim?</b> ${esc(p.why)}</div>`:"";
+function execBox(p,usedExec){
+ if(!p.ex)return "";
+ if(usedExec)return `<div class="execb"><span class="chip">Forma do dia a dia</span><div class="en mt">${esc(p.en)}</div><div class="lbl">Também está certa. A executiva é só mais formal.</div>${sayBtns(p.en)}</div>`;
+ return `<div class="execb"><span class="chip exec">Versão executiva</span><div class="en mt">${esc(p.ex)}</div><div class="lbl">Mais formal, ótima para transfer executivo. As duas estão certas.</div>${sayBtns(p.ex)}</div>`;
+}
+function softGrade(id){const x=it(id);x.s=1;x.d=tNum()+1;S.stats.answers++;S.stats.correct++;}
+function makeBuild(p){const pt=pText(p),words=pt.t.split(" ");return {type:"build",id:p.id,say:pt.t,exec:pt.x,words,pool:shuffle(words.map((t,i)=>({t,i}))),picked:[],done:false,fb:"",tries:0,bad:[],msg:""};}
 const STOP=new Set(["the","and","you","your","for","are","our","this","that","there","with","have","was","its","but","can","will","would","could","please","here","what","about","let","may","is","it","to","a","an"]);
 const clean=t=>t.toLowerCase().replace(/[.,?!“”]/g,"");
 let ALLW=null;
 function makeFill(p){
- const toks=p.en.split(" ");
+ const ptx=pText(p),toks=ptx.t.split(" ");
  let c=toks.map((t,i)=>({i,c:clean(t)})).filter(o=>/^[a-z]{3,}$/.test(o.c)&&!STOP.has(o.c));
  if(!c.length)c=toks.map((t,i)=>({i,c:clean(t)})).filter(o=>/^[a-z]{2,}$/.test(o.c));
  const ch=pickN(c,1)[0];
  if(!ALLW)ALLW=[...new Set(PHRASES.flatMap(x=>x.en.split(" ").map(clean)).filter(w=>/^[a-z]{3,}$/.test(w)&&!STOP.has(w)))];
  let pool=ALLW.filter(w=>w!==ch.c&&Math.abs(w.length-ch.c.length)<=3);if(pool.length<2)pool=ALLW.filter(w=>w!==ch.c);
  const disp=toks.map((t,i)=>{if(i!==ch.i)return esc(t);const pos=t.toLowerCase().indexOf(ch.c);return esc(t.slice(0,pos))+'<span class="blank">_____</span>'+esc(t.slice(pos+ch.c.length));}).join(" ");
- return {type:"mc",id:p.id,say:p.en,top:`<div class="lbl">Complete a frase</div><div class="big2">${disp}</div><div class="lbl mt">${esc(p.pt)}</div>`,
-  opts:shuffle([{t:ch.c,ok:true},...pickN(pool,2).map(w=>({t:w,ok:false}))]),sayAfter:p.en,
-  after:`<div class="ex"><div class="en">${esc(p.en)}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(p.en)}</div>`};
+ return {type:"mc",id:p.id,say:ptx.t,top:`<div class="lbl">Complete a frase${ptx.x?' <span class="chip exec">versão executiva</span>':""}</div><div class="big2">${disp}</div><div class="lbl mt">${esc(p.pt)}</div>`,
+  opts:shuffle([{t:ch.c,ok:true},...pickN(pool,2).map(w=>({t:w,ok:false}))]),sayAfter:ptx.t,
+  after:`<div class="ex"><div class="en">${esc(ptx.t)}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(ptx.t)}</div>`+whyBox(p)+execBox(p,ptx.x)};
 }
 function makeSim(si,ti){
  const sc=SIMS[si],t=sc.turns[ti],right=t.o.find(o=>o[1]);
@@ -574,10 +592,11 @@ function renderQ(q){
  return `<div class="card">${q.top}</div><div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-act="answer" data-i="${i}">${esc(o.t)}</button>`).join("")}</div><div id="fb"></div>`;
 }
 function buildHTML(q){const p=byId[q.id];
- return `<div class="card"><div class="lbl">Monte a frase em inglês</div><div class="big2">${esc(p.pt)}</div></div>
- <div class="ans">${q.picked.length?q.picked.map((k,j)=>`<button class="tok" data-act="unpick" data-j="${j}"${q.done?" disabled":""}>${esc(q.pool[k].t)}</button>`).join(""):'<span class="lbl">Toque nas palavras abaixo, na ordem certa</span>'}</div>
+ return `<div class="card"><div class="lbl">Monte a frase em inglês${q.exec?' <span class="chip exec">versão executiva</span>':""}</div><div class="big2">${esc(p.pt)}</div></div>
+ ${q.done?"":`<div class="tipb"><b>Dica:</b> a frase começa com letra maiúscula e termina com “.” ou “?”. Atenção: nomes e “I” (eu) também têm maiúscula.</div>`}
+ <div class="ans">${q.picked.length?q.picked.map((k,j)=>`<button class="tok${q.bad.includes(j)?" bad":""}" data-act="unpick" data-j="${j}"${q.done?" disabled":""}>${esc(q.pool[k].t)}</button>`).join(""):'<span class="lbl">Toque nas palavras abaixo, na ordem certa</span>'}</div>
  <div class="pool">${q.pool.map((o,k)=>q.picked.includes(k)?"":`<button class="tok" data-act="pick" data-k="${k}">${esc(o.t)}</button>`).join("")}</div>
- <div id="berr" class="err"></div>${q.done?"":'<button class="btn pri wide mt" data-act="check">Verificar</button>'}<div id="fb">${q.fb}</div>`;}
+ <div id="berr" class="err"></div>${q.done?"":q.msg}${q.done?"":'<button class="btn pri wide mt" data-act="check">Verificar</button>'}<div id="fb">${q.fb}</div>`;}
 function flashHTML(q){const w=byId[q.id];
  return `<div class="card center"><div class="lbl">Você sabe o que significa?</div><div class="big">${esc(w.en)}</div>${sayBtns(w.en)}
  ${q.rev?`<div class="pron">${esc(w.pr)}</div><div class="pt">${esc(w.pt)}</div><div class="ex" style="text-align:left"><div>${esc(w.ex)}</div><div class="lbl">${esc(w.expt)}</div></div>`:""}</div>
@@ -600,12 +619,18 @@ function answer(i){
 function checkBuild(){
  const q=Q;if(q.done)return;
  if(q.picked.length<q.pool.length){$("#berr").textContent="Use todas as palavras antes de verificar.";return;}
- const ok=q.picked.map(k=>q.pool[k].t).join(" ")===q.words.join(" ");
- q.done=true;beep(ok);grade(q.id,ok);
+ const mine=q.picked.map(k=>q.pool[k].t),bad=[];mine.forEach((t,j)=>{if(t!==q.words[j])bad.push(j);});
+ const ok=!bad.length,p=byId[q.id];
+ if(!ok&&q.tries===0){q.tries=1;q.bad=bad;beep(false);q.msg=`<div class="retry"><b>Quase!</b> As palavras em vermelho estão fora do lugar. Toque nelas para tirar e tente de novo.</div>`;$("#barea").innerHTML=buildHTML(q);return;}
+ q.done=true;beep(ok);
+ if(ok&&q.tries===0)grade(q.id,true);else if(ok)softGrade(q.id);else grade(q.id,false);
  if(cur.s==="session"){S.session.n=(S.session.n||0)+1;if(ok)S.session.ok=(S.session.ok||0)+1;}
  if(cur.s==="game"&&ok)G.ok++;
  save();checkAch();
- q.fb=(ok?`<div class="fbok">${ic("check",20)} Certo!</div>`:`<div class="fbbad">Quase. A frase certa é:</div>`)+`<div class="ex"><div class="en">${esc(q.words.join(" "))}</div><div class="lbl" style="font-size:15px">${esc(byId[q.id].pt)}</div>${sayBtns(q.words.join(" "))}</div>`+nextBtn();
+ let h;
+ if(ok)h=`<div class="fbok">${ic("check",20)} Certo!${q.tries?" Na segunda tentativa.":""}</div><div class="ex"><div class="en">${esc(q.say)}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(q.say)}</div>`;
+ else h=`<div class="fbbad">Vamos ver a diferença:</div><div class="card mt"><div class="lbl">Você montou</div><div class="cmp">${mine.map((t,j)=>bad.includes(j)?`<span class="wr">${esc(t)}</span>`:esc(t)).join(" ")}</div><div class="lbl mt">O certo</div><div class="cmp b">${q.words.map((t,j)=>bad.includes(j)?`<span class="rt">${esc(t)}</span>`:esc(t)).join(" ")}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(q.say)}</div>`;
+ q.bad=ok?[]:bad;q.fb=h+whyBox(p)+execBox(p,q.exec)+nextBtn();
  $("#barea").innerHTML=buildHTML(q);speak(q.say);
 }
 
@@ -619,7 +644,7 @@ function buildSession(short){
  const ps=[...new Set([...dueList(PHRASES),...unseen(PHRASES)])];
  const pp=(ps.length?ps:pickN(PHRASES,2)).slice(0,short?1:2);
  pp.forEach(p=>st.push({k:"phrase",id:p.id}));
- if(!short){pp.forEach(p=>st.push({k:p.en.split(" ").length<=9?"build":"fill",id:p.id}));
+ if(!short){pp.forEach(p=>st.push({k:pText(p).t.split(" ").length<=9?"build":"fill",id:p.id}));
   let si=SIMS.findIndex((_,i)=>!S.sims[i]);if(si<0)si=Math.floor(Math.random()*SIMS.length);
   SIMS[si].turns.forEach((_,ti)=>st.push({k:"sim",si,ti}));}
  return {date:todayStr(),short,steps:st,i:0,n:0,ok:0,done:false};
@@ -641,7 +666,7 @@ function practiceWord(ex){
  return unseen(WORDS).filter(w=>!ex.has(w.id))[0]||pickN(WORDS.filter(w=>!ex.has(w.id)),1)[0];
 }
 function practicePhrase(ex,shortOnly){
- const pool=PHRASES.filter(p=>!ex.has(p.id)&&(!shortOnly||p.en.split(" ").length<=9));
+ const pool=PHRASES.filter(p=>!ex.has(p.id)&&(!shortOnly||pText(p).t.split(" ").length<=9));
  const d=dueList(pool);if(d.length)return d[0];
  const sn=pool.filter(p=>seen(p.id));if(sn.length>=5)return pickN(sn,1)[0];
  return pickN(pool,1)[0];
@@ -732,12 +757,18 @@ V.practice=()=>{
  const simDone=SIMS.filter((_,i)=>S.sims[i]).length;
  return `<h2 style="margin-top:6px">Jogos</h2><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
  <h2>Conversa</h2><button class="rowcard" data-act="go" data-s="sims"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Simulação real</b><br><span class="lbl">Responda ao passageiro em ${SIMS.length} situações. ${simDone} ${simDone===1?"concluída":"concluídas"}.</span></span></button>
- <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div>`;
+ <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div><button class="rowcard" data-act="go" data-s="guide"><span class="rcic">${ic("quiz",22)}</span><span style="flex:1"><b>Can, Could ou May?</b><br><span class="lbl">Dia a dia, educado ou executivo: quando usar cada um</span></span></button>`;
 };
 V.sims=()=>`<p class="lbl">O passageiro fala e você escolhe a melhor resposta. Depois, ouça e repita.</p>`+SIMS.map((s,i)=>`<button class="rowcard" data-act="game" data-g="sim" data-si="${i}"><span style="flex:1"><b>${esc(s.t)}</b><br><span class="lbl">${s.turns.length} falas</span></span>${S.sims[i]?`<span class="okc">${ic("check",22)}</span>`:""}</button>`).join("");
 V.library=()=>`<p class="lbl">Palavras organizadas por tema. Toque num tema para ver, ouvir e marcar as que já sabe.</p>`+CATS.map((c,ci)=>{const ws=WORDS.filter(w=>w.cat===ci),l=ws.filter(w=>learned(w.id)).length;return `<button class="rowcard" data-act="go" data-s="category" data-c="${ci}"><span style="flex:1"><b>${esc(c.n)}</b><div class="bar"><div style="width:${l/ws.length*100}%"></div></div><span class="lbl">${l} de ${ws.length} aprendidas</span></span></button>`;}).join("");
 V.category=()=>WORDS.filter(w=>w.cat===cur.c).map(w=>`<div class="card mt"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><div class="en" style="font-size:20px">${esc(w.en)}</div><div class="pron">${esc(w.pr)}</div><div class="pt" style="margin-top:4px">${esc(w.pt)}</div></div>${TTS?`<button class="ibtn" data-act="say" data-t="${esc(w.en)}" aria-label="Ouvir ${esc(w.en)}">${ic("vol",20)}</button>`:""}</div><div class="ex"><div>${esc(w.ex)}</div><div class="lbl">${esc(w.expt)}</div>${sayBtns(w.ex)}</div><button class="btn wide mt${learned(w.id)?" sel":""}" data-act="known" data-id="${w.id}" style="${learned(w.id)?"color:var(--ok);border-color:var(--ok)":""}">${learned(w.id)?ic("check",18)+" Aprendida":"Marcar como aprendida"}</button></div>`).join("");
-V.phrases=()=>Object.keys(CTX).map(k=>`<h2>${CTX[k]}</h2>`+PHRASES.filter(p=>p.ctx===k).map(p=>`<div class="card mt"><div class="en">${esc(p.en)}</div><div class="lbl" style="font-size:15px;margin-top:4px">${esc(p.pt)}</div>${p.note?`<div class="note">Dica: ${esc(p.note)}</div>`:""}${sayBtns(p.en)}</div>`).join("")).join("");
+V.phrases=()=>`<p class="lbl">Cada frase está na forma do dia a dia. Quando existe uma forma mais formal, ela aparece como versão executiva.</p>`+Object.keys(CTX).map(k=>`<h2>${CTX[k]}</h2>`+PHRASES.filter(p=>p.ctx===k).map(p=>`<div class="card mt"><div class="en">${esc(p.en)}</div><div class="lbl" style="font-size:15px;margin-top:4px">${esc(p.pt)}</div>${p.note?`<div class="note">Dica: ${esc(p.note)}</div>`:""}${sayBtns(p.en)}${execBox(p,false)}${whyBox(p)}</div>`).join("")).join("");
+const GUIDE=[
+{t:"Posso…? (você pede para fazer algo)",r:[["Can I help you?","Dia a dia","Sempre certo."],["Could I help you?","Educado","Um pouco mais gentil."],["May I help you?","Executivo","O mais formal, típico de hotel e transfer executivo."]]},
+{t:"Pode…? (você pede algo ao cliente)",r:[["Can you repeat that?","Dia a dia","Sempre certo."],["Could you repeat that?","Educado","Mais gentil, ótimo com qualquer cliente."],["Would you repeat that, please?","Executivo","Muito formal."]]},
+{t:"Quer…? (você oferece algo)",r:[["Do you want some water?","Dia a dia","Certo, mas direto."],["Would you like some water?","Educado e executivo","A forma mais usada com clientes."]]}
+];
+V.guide=()=>`<p class="lbl" style="font-size:15px">Todas significam “posso”, “pode” ou “quer”. O que muda é o nível de educação. Todas estão certas: comece pelo dia a dia e use as outras quando se sentir à vontade.</p>`+GUIDE.map(g=>`<h2>${esc(g.t)}</h2><div class="card">${g.r.map((r,i)=>`<div style="padding:10px 0;${i?"border-top:1px solid var(--line)":""}"><span class="chip${r[1]==="Dia a dia"?"":" exec"}">${esc(r[1])}</span><div class="en mt">${esc(r[0])}</div><div class="lbl">${esc(r[2])}</div>${sayBtns(r[0])}</div>`).join("")}</div>`).join("")+`<div class="why"><b>Dica:</b> nos exercícios, a resposta esperada é a do dia a dia. Quando você dominar uma frase, o app passa a cobrar a versão executiva dela.</div>`;
 V.progress=()=>{
  const acc=S.stats.answers?Math.round(S.stats.correct/S.stats.answers*100):0;
  const mins=Math.round(Object.values(S.days).reduce((a,b)=>a+b,0)/60);
@@ -765,7 +796,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.1.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.2.0</p>`;
 };
 
 /* ---------- Ações ---------- */
@@ -803,8 +834,8 @@ const A={
  },
  reveal:()=>{Q.rev=true;render();},
  flashGrade:d=>{const ok=d.ok==="1";grade(Q.id,ok);if(ok)G.ok++;save();checkAch();G.n++;render();window.scrollTo(0,0);autoSpeak();},
- pick:d=>{if(Q.done)return;Q.picked.push(+d.k);$("#barea").innerHTML=buildHTML(Q);},
- unpick:d=>{if(Q.done)return;Q.picked.splice(+d.j,1);$("#barea").innerHTML=buildHTML(Q);},
+ pick:d=>{if(Q.done)return;Q.picked.push(+d.k);Q.bad=[];Q.msg="";$("#barea").innerHTML=buildHTML(Q);},
+ unpick:d=>{if(Q.done)return;Q.picked.splice(+d.j,1);Q.bad=[];Q.msg="";$("#barea").innerHTML=buildHTML(Q);},
  check:()=>checkBuild(),
  phraseDone:()=>{S.stats.phrasesPracticed++;const x=it(Q.id);x.pr=(x.pr||0)+1;save();A.next();},
  rec:(d,el)=>recToggle(el),
