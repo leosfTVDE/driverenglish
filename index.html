@@ -56,6 +56,12 @@ p{margin:0}
 .ibtn.ghost{background:transparent;color:var(--tx2)}
 .ibtn.sm{width:auto;padding:0 14px;border-radius:22px;font-size:13px;font-weight:600}
 .ex .ibtn,.bubble .ibtn{background:var(--card)}
+.hrow{margin-top:12px;flex-wrap:nowrap}
+.hbtn{flex:1;min-height:44px;font-size:14px;color:var(--pri)}
+.hbtn.act{background:var(--pri-soft);border-color:var(--pri)}
+.ltxt{background:var(--soft);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:600;font-size:17px}
+.lhelp{background:var(--warm-soft);border-radius:12px;padding:10px 12px;margin-top:10px;text-align:left;font-size:14px}
+.lhelp b{color:var(--warm)}
 .say{display:inline-flex;gap:8px;margin-top:12px;align-items:center}
 .link{background:none;border:0;color:var(--pri);font-weight:600;padding:10px 4px;min-height:44px}
 .prog{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin:4px 0 16px}
@@ -348,10 +354,53 @@ const SIMS=[
 {p:"Thank you, that was great!",pt:"Obrigado, foi ótimo!",o:[["Thank you! Have a pleasant stay in Lisbon.",1,"Despedida calorosa e profissional."],["Okay, bye.",0,"Curto demais para um serviço executivo."],["You’re welcome, five stars please.",0,"Pedir avaliação assim soa mal."]]},
 {p:"Do you have a card for future rides?",pt:"Você tem um cartão para próximas viagens?",o:[["Yes, here’s my card. You can book me anytime.",1,"Ótima chance de ganhar um cliente fixo."],["Yes, I take cards.",0,"Atenção: aqui “card” é cartão de visita, não pagamento."],["No.",0,"Perdeu a chance de fidelizar o cliente."]]}]}
 ];
+const LIX=[
+["Claro, sem problema.","Fala do ar-condicionado (AC). “Down” = para baixo."],
+["Cerca de vinte minutos.","“How long” pergunta sobre tempo. “Airport” = aeroporto."],
+["Claro, tem uma aqui perto.","“Stop” = parar. “Pharmacy” parece com uma palavra em português."],
+["Sem problema, eu estava acompanhando.","“Flight” = voo. “Delayed” = atrasado."],
+["Sim, cartão ou dinheiro, tanto faz.","É sobre pagamento. “Take” aqui = aceitar."],
+["Não, uns dez minutos.","“Far” = longe. “Here” = aqui."],
+["Claro, um momento.","“Trunk” = porta-malas. “Open” = abrir."],
+["Sim, vou estar bem aqui.","“Wait” = esperar. “Us” = nós."],
+["Não se preocupe, vou pelo caminho mais rápido.","“Late” = tarde, atrasado. “Running late” é uma expressão."],
+["Recomendo o Time Out Market.","“Dinner” = jantar. “Best place” = melhor lugar."],
+["Sim, está incluída.","“Toll” = portagem. “Included” parece com português."],
+["Claro, envio por email.","“Receipt” = recibo. “Get” aqui = receber."],
+["De jeito nenhum, fique à vontade.","“Window” = janela. “Do you mind” = se importa."],
+["Tenho uma pronta.","“Need” = precisar. “Child seat” = assento de criança."],
+["Claro, bem na porta.","“Drop” aqui = deixar alguém. “Entrance” = entrada."],
+["São quarenta e cinco euros.","“How much” pergunta sobre preço."],
+["Claro.","“Music” = música. “Turn up” = aumentar."],
+["Não se preocupe, vou devolver para você.","“Left” aqui = deixou, esqueceu. “Phone” = celular."],
+["Sim, no posto de gasolina logo à frente.","“Bathroom” = banheiro. “Nearby” = perto."],
+["O Cabo da Roca é perfeito para isso.","“Sun” = sol. “Sunset” é quando o sol se põe."],
+["Sim, às seis no hotel.","“Pick up” = buscar alguém. “Six” = seis."],
+["Terminal um.","“Which” = qual. “Terminal” é igual em português."],
+["Só um pouco.","“Speak” = falar. “Spanish” = espanhol."],
+["Sim, dá para ir a pé rapidinho.","“Close to” = perto de. “Center” = centro."],
+["Certo, próxima saída.","“Exit” = saída. “Next” = próxima."],
+["Claro.","“Quick” = rápida. “Stop” = parada."],
+["Vou dirigir com mais suavidade. Quer um pouco de água?","“Feeling” = sentindo. “Sick” = mal, enjoado."],
+["Uns três anos.","“How long” = há quanto tempo. É uma pergunta sobre você."],
+["Sou do Brasil.","“Where” = onde. “From” = de (origem)."],
+["Sim, em geral é seguro.","“Safe” = seguro. “Night” = noite."],
+["Muito obrigado!","“Change” aqui = troco. “Keep” = ficar com."],
+["Sem problema, cabe.","“Suitcase” = mala. “One more” = mais uma."],
+["Claro, desculpe.","“Slow” = devagar. É sobre a forma de dirigir."],
+["Fecha às sete.","“What time” = que horas. “Close” = fechar."],
+["Quase, mais cinco minutos.","“There” = lá. “Yet” = já, ainda."],
+["Sim, tem ótimas em Alfama.","“Recommend” = recomendar. “House” = casa."],
+["Então devemos sair até às dez.","“Leaves” aqui = sai, parte. “Noon” = meio-dia."],
+["Claro, deixa que eu levo.","“Help” = ajudar. “Bag” = bolsa."],
+["Bem-vindo! Você vai adorar.","“First time” = primeira vez."],
+["Obrigado! Aproveite a estadia.","“Thanks” = obrigado. “Ride” = viagem."]
+];
+const SIMPT=[["Sim, sou eu. Bem-vindo a Lisboa!","Que pena. Deixe-me ajudar com sua bagagem."],["Perfeito. Vai levar uns vinte minutos.","Um pouco, mas estamos bem."],["Quer que eu deixe mais fresco?","Claro, aqui está um carregador."],["São quarenta euros, com portagens incluídas.","Sim, cartão ou dinheiro, tanto faz."],["Sem problema, eu estava acompanhando seu voo.","Claro. Pode me passar o novo endereço?"],["Recomendo o Palácio da Pena primeiro, antes de lotar.","Umas duas horas. Vou esperar no estacionamento."],["Obrigado! Tenha uma ótima estadia em Lisboa.","Sim, aqui está meu cartão. Pode me chamar quando quiser."]];
 const WORDS=[],byId={};
 CATS.forEach((c,ci)=>c.w.forEach(w=>{const o={id:"w"+WORDS.length,en:w[0],pt:w[1],pr:w[2],ex:w[3],expt:w[4],cat:ci};WORDS.push(o);byId[o.id]=o;}));
 const PHRASES=PH.map((p,i)=>{const o={id:"p"+i,en:p[0],pt:p[1],ctx:p[2],note:p[3]};byId[o.id]=o;return o;});
-const LISTEN=LI.map((l,i)=>{const o={id:"l"+i,en:l[0],pt:l[1],w1:l[2],w2:l[3],r:l[4]};byId[o.id]=o;return o;});
+const LISTEN=LI.map((l,i)=>{const o={id:"l"+i,en:l[0],pt:l[1],w1:l[2],w2:l[3],r:l[4],rpt:LIX[i][0],h:LIX[i][1]};byId[o.id]=o;return o;});
 
 /* ---------- Utilidades ---------- */
 const $=s=>document.querySelector(s);
@@ -390,11 +439,12 @@ const LOGO='<svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width
 
 /* ---------- Estado ---------- */
 const KEY="driverenglish.v1";
-const DEF={v:1,name:"",onboarded:false,settings:{goal:10,theme:"light",accent:"mix",rate:0.9,sound:true},items:{},days:{},session:null,stats:{answers:0,correct:0,listenOk:0,phrasesPracticed:0,sessions:0},sims:{},ach:{}};
+const DEF={v:1,name:"",onboarded:false,settings:{goal:10,theme:"light",accent:"mix",rate:0.95,sound:true},items:{},days:{},session:null,stats:{answers:0,correct:0,listenOk:0,phrasesPracticed:0,sessions:0},sims:{},ach:{}};
 const fresh=()=>JSON.parse(JSON.stringify(DEF));
 function merge(o){const s=fresh();for(const k in o){if(s[k]&&typeof s[k]==="object"&&!Array.isArray(s[k])&&o[k]&&typeof o[k]==="object")Object.assign(s[k],o[k]);else s[k]=o[k];}return s;}
 function load(){try{const r=localStorage.getItem(KEY);if(r)return merge(JSON.parse(r));}catch(e){}return fresh();}
 let S=load(),saveWarned=false;
+if(![0.75,0.95,1.1].includes(S.settings.rate))S.settings.rate=0.95;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(!saveWarned){saveWarned=true;toast("Não foi possível salvar o progresso neste navegador");}}}
 
 /* ---------- Revisão espaçada ---------- */
@@ -423,8 +473,11 @@ function pickAccent(){const a=availAcc(),s=S.settings.accent;if(!a.length)return
 function voiceFor(acc){const l=VOICES.filter(v=>vLang(v).startsWith(ACC[acc].l));return l.find(v=>/enhanced|premium|melhorad|aprimorad/i.test(v.name))||l.find(v=>v.localService)||l[0];}
 function speak(text,slow,acc){
  if(!TTS){toast("Áudio indisponível neste navegador");return;}
- try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const a=acc||pickAccent();const v=a?voiceFor(a):null;
- if(v){u.voice=v;u.lang=v.lang;}else u.lang="en-US";u.rate=slow?0.6:S.settings.rate;speechSynthesis.speak(u);}catch(e){toast("Não foi possível tocar o áudio");}
+ try{speechSynthesis.cancel();const a=acc||pickAccent();const v=a?voiceFor(a):null;
+  /* Lento: fala palavra por palavra (o iPhone nem sempre respeita a velocidade) */
+  const parts=slow?String(text).split(/\s+/).filter(Boolean):[text];
+  parts.forEach(t=>{const u=new SpeechSynthesisUtterance(t);if(v){u.voice=v;u.lang=v.lang;}else u.lang="en-US";u.rate=slow?0.75:S.settings.rate;speechSynthesis.speak(u);});
+ }catch(e){toast("Não foi possível tocar o áudio");}
 }
 const sayBtns=t=>TTS?`<span class="say"><button class="ibtn" data-act="say" data-t="${esc(t)}" aria-label="Ouvir">${ic("vol",20)}</button><button class="ibtn sm" data-act="say" data-t="${esc(t)}" data-slow="1" aria-label="Ouvir devagar">Lento</button></span>`:"";
 const accLabel=a=>a?`<div class="center lbl">Sotaque: ${ACC[a].n}</div>`:"";
@@ -484,10 +537,10 @@ function makeLearn(w){introduce(w.id);save();
 function makeListen(l){
  const acc=pickAccent();
  const top=TTS
-  ?`<div class="center lbl">O passageiro disse:</div><div class="playrow"><button class="playbig" data-act="sayQ" aria-label="Ouvir de novo">${ic("play",36)}</button><button class="slow" data-act="sayQ" data-slow="1" aria-label="Ouvir devagar">Lento</button></div>${accLabel(acc)}<div class="center lbl mt">O que ele quis dizer?</div>`
-  :`<div class="lbl">O passageiro disse:</div><div class="big2">“${esc(l.en)}”</div><div class="lbl mt">O que ele quis dizer?</div>`;
+  ?`<div class="center lbl">O passageiro disse:</div><div class="playrow"><button class="playbig" data-act="sayQ" aria-label="Ouvir de novo">${ic("play",36)}</button><button class="slow" data-act="sayQ" data-slow="1" aria-label="Ouvir devagar">Lento</button></div>${accLabel(acc)}<div class="row hrow"><button class="btn hbtn" data-act="lsText">Mostrar texto</button><button class="btn hbtn" data-act="lsHelp">Ajuda</button></div><div id="lsT" class="ltxt" hidden>“${esc(l.en)}”</div><div id="lsH" class="lhelp" hidden><b>Dica:</b> ${esc(l.h)}</div><div class="center lbl mt">O que ele quis dizer?</div>`
+  :`<div class="lbl">O passageiro disse:</div><div class="big2">“${esc(l.en)}”</div><div class="row hrow"><button class="btn hbtn" data-act="lsHelp">Ajuda</button></div><div id="lsH" class="lhelp" hidden><b>Dica:</b> ${esc(l.h)}</div><div class="lbl mt">O que ele quis dizer?</div>`;
  return {type:"mc",id:l.id,listen:true,acc,say:l.en,auto:true,top,opts:shuffle([{t:l.pt,ok:true},{t:l.w1,ok:false},{t:l.w2,ok:false}]),
-  after:`<div class="ex"><div class="en">“${esc(l.en)}”</div><div class="lbl mt">Você pode responder:</div><div class="en">${esc(l.r)}</div>${sayBtns(l.r)}</div>`};
+  after:`<div class="ex"><div class="en">“${esc(l.en)}”</div><div class="lbl" style="font-size:15px">${esc(l.pt)}</div><div class="lbl mt">Você pode responder:</div><div class="en">${esc(l.r)}</div><div class="lbl" style="font-size:15px">${esc(l.rpt)}</div>${sayBtns(l.r)}</div>`};
 }
 function makePhrase(p){introduce(p.id);save();
  return {type:"phrase",id:p.id,say:p.en,auto:true,html:`<div class="card"><span class="chip">${esc(CTX[p.ctx])}</span><div class="big2">${esc(p.en)}</div><div class="pt">${esc(p.pt)}</div>${p.note?`<div class="note">Dica: ${esc(p.note)}</div>`:""}<div class="row mt">${TTS?`<button class="btn" data-act="sayQ">${ic("vol",18)} Ouvir</button><button class="btn" data-act="sayQ" data-slow="1">Lento</button>`:""}${REC?`<button class="btn" id="recBtn" data-act="rec">${ic("mic",18)} Gravar</button>`:""}</div><div id="rec" class="row mt"></div></div><p class="note">Ouça, repita em voz alta${REC?" e, se quiser, grave para comparar":""}. A comparação é só para você ouvir: o app não avalia a pronúncia.</p><button class="btn pri wide mt" data-act="phraseDone">Já repeti em voz alta</button>`};
@@ -506,11 +559,11 @@ function makeFill(p){
  const disp=toks.map((t,i)=>{if(i!==ch.i)return esc(t);const pos=t.toLowerCase().indexOf(ch.c);return esc(t.slice(0,pos))+'<span class="blank">_____</span>'+esc(t.slice(pos+ch.c.length));}).join(" ");
  return {type:"mc",id:p.id,say:p.en,top:`<div class="lbl">Complete a frase</div><div class="big2">${disp}</div><div class="lbl mt">${esc(p.pt)}</div>`,
   opts:shuffle([{t:ch.c,ok:true},...pickN(pool,2).map(w=>({t:w,ok:false}))]),sayAfter:p.en,
-  after:`<div class="ex"><div class="en">${esc(p.en)}</div>${sayBtns(p.en)}</div>`};
+  after:`<div class="ex"><div class="en">${esc(p.en)}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(p.en)}</div>`};
 }
 function makeSim(si,ti){
  const sc=SIMS[si],t=sc.turns[ti],right=t.o.find(o=>o[1]);
- return {type:"mc",sim:true,si,last:ti===sc.turns.length-1,say:t.p,auto:true,acc:pickAccent(),sayAfter:right[0],
+ return {type:"mc",sim:true,si,rpt:SIMPT[si][ti],last:ti===sc.turns.length-1,say:t.p,auto:true,acc:pickAccent(),sayAfter:right[0],
   top:`<span class="chip">Parte ${ti+1} de ${sc.turns.length}</span><div class="bubble"><div class="who">Passageiro</div><div class="en">${esc(t.p)}</div><div id="ppt" class="lbl" hidden>${esc(t.pt)}</div><div class="row">${TTS?`<button class="ibtn" data-act="sayQ" aria-label="Ouvir o passageiro">${ic("vol",20)}</button>`:""}<button class="link" data-act="showPt">Ver tradução</button></div></div><div class="lbl mt">Qual é a melhor resposta?</div>`,
   opts:shuffle(t.o.map(o=>({t:o[0],ok:!!o[1],fb:o[2]})))};
 }
@@ -539,7 +592,7 @@ function answer(i){
  if(cur.s==="session"){S.session.n=(S.session.n||0)+1;if(ok)S.session.ok=(S.session.ok||0)+1;}
  if(cur.s==="game"&&ok)G.ok++;
  let after=Q.after||"";
- if(Q.sim){const r=Q.opts.find(x=>x.ok);after=`<div class="ex">${ok?`<div>${esc(r.fb)}</div>`:`<div>${esc(o.fb)}</div><div class="lbl mt">Melhor resposta:</div><div class="en">${esc(r.t)}</div><div class="lbl">${esc(r.fb)}</div>`}${sayBtns(r.t)}</div>`;if(Q.last)S.sims[Q.si]=1;}
+ if(Q.sim){const r=Q.opts.find(x=>x.ok);const pp=$("#ppt");if(pp)pp.hidden=false;after=`<div class="ex">${ok?"":`<div>${esc(o.fb)}</div><div class="lbl mt">Melhor resposta:</div>`}<div class="en">${esc(r.t)}</div><div class="lbl" style="font-size:15px">${esc(Q.rpt)}</div><div class="${ok?"mt":"lbl mt"}">${esc(r.fb)}</div>${sayBtns(r.t)}</div>`;if(Q.last)S.sims[Q.si]=1;}
  save();checkAch();
  $("#fb").innerHTML=(ok?`<div class="fbok">${ic("check",20)} Certo!</div>`:`<div class="fbbad">Quase. A resposta certa está em verde.</div>`)+after+nextBtn();
  if(Q.sayAfter)speak(Q.sayAfter,false,Q.acc);
@@ -552,7 +605,7 @@ function checkBuild(){
  if(cur.s==="session"){S.session.n=(S.session.n||0)+1;if(ok)S.session.ok=(S.session.ok||0)+1;}
  if(cur.s==="game"&&ok)G.ok++;
  save();checkAch();
- q.fb=(ok?`<div class="fbok">${ic("check",20)} Certo!</div>`:`<div class="fbbad">Quase. A frase certa é:</div>`)+`<div class="ex"><div class="en">${esc(q.words.join(" "))}</div>${sayBtns(q.words.join(" "))}</div>`+nextBtn();
+ q.fb=(ok?`<div class="fbok">${ic("check",20)} Certo!</div>`:`<div class="fbbad">Quase. A frase certa é:</div>`)+`<div class="ex"><div class="en">${esc(q.words.join(" "))}</div><div class="lbl" style="font-size:15px">${esc(byId[q.id].pt)}</div>${sayBtns(q.words.join(" "))}</div>`+nextBtn();
  $("#barea").innerHTML=buildHTML(q);speak(q.say);
 }
 
@@ -706,13 +759,13 @@ V.settings=()=>{
  <div class="set"><div class="lbl">Meta diária</div>${seg("goal",[[5,"5 min"],[10,"10 min"],[15,"15 min"]])}</div>
  <div class="set"><div class="lbl">Tema</div>${seg("theme",[["light","Claro"],["auto","Automático"],["dark","Escuro"]])}</div>
  <div class="set"><div class="lbl">Sotaque das vozes</div>${TTS?(av.length?seg("accent",accOpts):`<p class="note">Nenhuma voz em inglês encontrada ainda.</p>`):`<p class="note">Este navegador não tem voz sintetizada.</p>`}</div>
- <div class="set"><div class="lbl">Velocidade normal da voz</div>${seg("rate",[[0.8,"Devagar"],[0.9,"Normal"],[1,"Rápida"]])}</div>
+ <div class="set"><div class="lbl">Velocidade normal da voz</div>${seg("rate",[[0.75,"Devagar"],[0.95,"Normal"],[1.1,"Rápida"]])}<p class="note">O botão “Lento” fala palavra por palavra, para você separar cada uma.</p></div>
  <div class="set"><div class="lbl">Sons de acerto e erro</div>${seg("sound",[["true","Ligados"],["false","Desligados"]])}</div>
  ${TTS?`<button class="btn wide mt2" data-act="testVoice">${ic("vol",18)} Testar voz</button>`:""}
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.0.1</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.1.0</p>`;
 };
 
 /* ---------- Ações ---------- */
@@ -764,6 +817,8 @@ const A={
  export:()=>exportData(),
  import:()=>$("#imp").click(),
  reset:()=>{if(confirm("Apagar todo o progresso? Isto não pode ser desfeito.")){const n=S.name,st=S.settings;S=fresh();S.name=n;S.settings=st;S.onboarded=true;Q=null;save();go("home");toast("Progresso apagado");}},
+ lsText:(d,el)=>{const x=$("#lsT");if(x){x.hidden=!x.hidden;el.classList.toggle("act",!x.hidden);}},
+ lsHelp:(d,el)=>{const x=$("#lsH");if(x){x.hidden=!x.hidden;el.classList.toggle("act",!x.hidden);}},
  showPt:()=>{const x=$("#ppt");if(x)x.hidden=!x.hidden;},
  onboard:()=>{S.name=($("#nm").value||"").trim().slice(0,30);S.onboarded=true;save();$("#modal").innerHTML="";render();}
 };
