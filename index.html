@@ -254,9 +254,20 @@ const CATS=[
 ["forgot","esqueceu","fâr-gót","You forgot your phone.","Você esqueceu o celular."],
 ["hurry","pressa","râ-ri","Are you in a hurry?","Está com pressa?"],
 ["help","ajuda, ajudar","rélp","Do you need help?","Precisa de ajuda?"],
-["pharmacy","farmácia","fár-mâ-si","There’s a pharmacy nearby.","Tem uma farmácia aqui perto."]]}
+["pharmacy","farmácia","fár-mâ-si","There’s a pharmacy nearby.","Tem uma farmácia aqui perto."]]},
+{n:"Conversa na viagem",w:[
+["weather","tempo (clima)","ué-dâr","The weather is great today.","O tempo está ótimo hoje."],
+["sunny","ensolarado, com sol","sâ-ni","It’s sunny in Lisbon.","Está sol em Lisboa."],
+["rain","chuva, chover","rêin","It might rain later.","Pode chover mais tarde."],
+["football","futebol","fút-ból","Do you like football?","Você gosta de futebol?"],
+["holiday","férias","ró-li-dêi","Are you here on holiday?","Está aqui de férias?"],
+["business","negócios, trabalho","bíz-nis","Are you here on business?","Está aqui a trabalho?"],
+["country","país","kân-tri","Which country are you from?","De que país você é?"],
+["beautiful","bonito, lindo","biú-ti-fâl","Lisbon is beautiful at night.","Lisboa é linda à noite."],
+["food","comida","fúd","Portuguese food is delicious.","A comida portuguesa é deliciosa."],
+["family","família","fé-mi-li","Are you traveling with family?","Está viajando com a família?"]]}
 ];
-const CTX={aeroporto:"Aeroporto",viagem:"Durante a viagem",conforto:"Conforto",pagamento:"Pagamento",hora:"Serviço por hora",tour:"Tours",imprevistos:"Imprevistos",despedida:"Despedida"};
+const CTX={aeroporto:"Aeroporto",viagem:"Durante a viagem",conversa:"Conversa na viagem",conforto:"Conforto",pagamento:"Pagamento",hora:"Serviço por hora",tour:"Tours",imprevistos:"Imprevistos",despedida:"Despedida"};
 const PH=[
 ["Good morning. My name is Leonardo, I’m your driver.","Bom dia. Meu nome é Leonardo, sou seu motorista.","aeroporto","","Good morning. My name is Leonardo, and I’ll be your driver today.","A ordem é igual à do português: “My name is” = “Meu nome é”. “I’m” é a forma curta de “I am” (eu sou)."],
 ["Are you Mr. Smith?","O senhor é o Sr. Smith?","aeroporto","Use “Mr.” para homem e “Ms.” para mulher.","","Na pergunta, o verbo vem antes da pessoa: “You are” = você é; “Are you…?” = você é…?"],
@@ -297,7 +308,17 @@ const PH=[
 ["Thank you for choosing our service.","Obrigado por escolher nosso serviço.","despedida","","","Depois de “Thank you for”, o verbo vem com -ing: “choosing” (escolher)."],
 ["Have a nice stay in Lisbon.","Tenha uma boa estadia em Lisboa.","despedida","","Have a pleasant stay in Lisbon.","“Have a nice…” = tenha um bom… Serve para tudo: “Have a nice day” = tenha um bom dia."],
 ["Have a safe flight.","Tenha um bom voo.","despedida","","","Ao pé da letra é “tenha um voo seguro”. É o jeito comum de desejar boa viagem a quem vai voar."],
-["Don’t forget your things.","Não esqueça suas coisas.","despedida","","Please don’t forget your belongings.","“Don’t” = “do not” (não). “Things” = coisas. Na versão executiva, “belongings” = pertences."]
+["Don’t forget your things.","Não esqueça suas coisas.","despedida","","Please don’t forget your belongings.","“Don’t” = “do not” (não). “Things” = coisas. Na versão executiva, “belongings” = pertences."],
+["Is this your first time in Lisbon?","É sua primeira vez em Lisboa?","conversa","","","Na pergunta, o verbo “is” vem antes de “this”. “First time” = primeira vez."],
+["Are you here on holiday or for work?","Está aqui de férias ou a trabalho?","conversa","Americanos dizem “vacation” em vez de “holiday”.","Are you visiting for leisure or business?","“On holiday” = de férias. “For work” = a trabalho. A pergunta começa pelo verbo “are”."],
+["Where are you from?","De onde você é?","conversa","","","O “from” (de) vai no fim da pergunta, e não no começo como em português."],
+["The weather is great today.","O tempo está ótimo hoje.","conversa","","","“Weather” = tempo, clima. Em inglês o tempo “is”: “The weather is…”."],
+["Do you like football?","Você gosta de futebol?","conversa","Para americanos, “football” é futebol americano. Eles dizem “soccer”.","","O “do” marca a pergunta e não se traduz. “Like” = gostar."],
+["Have you tried Portuguese food?","Já provou a comida portuguesa?","conversa","","","“Have you tried” = já provou. Usa-se “have” + verbo para perguntar se a pessoa já fez algo."],
+["How long are you staying?","Quanto tempo vai ficar?","conversa","","How long will you be staying in Portugal?","“How long” = quanto tempo. “Are you staying” = vai ficar."],
+["I’m from Brazil, but I live in Lisbon.","Sou do Brasil, mas moro em Lisboa.","conversa","","","“I’m from” = sou de. “I live in” = moro em."],
+["Lisbon is beautiful at night.","Lisboa é linda à noite.","conversa","","","“At night” = à noite. “Beautiful” vem depois de “is”, como em português."],
+["Enjoy your time in Portugal!","Aproveite seu tempo em Portugal!","conversa","","I hope you enjoy your time in Portugal.","“Enjoy” = aproveitar. Serve para tudo: “Enjoy your meal” = bom apetite."]
 ];
 const LI=[
 ["Could you turn the AC down a bit?","Pode baixar um pouco o ar?","Pode ligar o ar?","Está muito frio aqui.","Of course, no problem."],
@@ -339,7 +360,17 @@ const LI=[
 ["My flight leaves at noon.","Meu voo sai ao meio-dia.","Meu voo chega ao meio-dia.","Meu voo atrasou.","Then we should leave by ten."],
 ["Can you help me with this bag?","Pode me ajudar com esta bolsa?","Esta bolsa é sua?","Pode guardar esta bolsa?","Sure, let me take it."],
 ["It’s my first time in Portugal.","É minha primeira vez em Portugal.","Eu moro em Portugal.","Já vim a Portugal antes.","Welcome! You’ll love it."],
-["Thanks, it was a great ride.","Obrigado, foi uma ótima viagem.","Obrigado, foi rápido.","Obrigado pela água.","Thank you! Enjoy your stay."]
+["Thanks, it was a great ride.","Obrigado, foi uma ótima viagem.","Obrigado, foi rápido.","Obrigado pela água.","Thank you! Enjoy your stay."],
+["How long have you lived in Lisbon?","Há quanto tempo você mora em Lisboa?","Você gosta de Lisboa?","Você nasceu em Lisboa?","A few years now."],
+["Is it always this sunny here?","Aqui faz sempre esse sol?","Vai chover hoje?","Aqui venta sempre assim?","Most of the year, yes!"],
+["Who’s the best football team here?","Qual é o melhor time de futebol daqui?","Onde fica o estádio?","Você joga futebol?","Benfica or Sporting, it depends who you ask!"],
+["What do you recommend we eat?","O que você recomenda que a gente coma?","Onde podemos comer?","A que horas abre o restaurante?","You should try grilled sardines."],
+["Do you like living here?","Você gosta de morar aqui?","Você mora aqui perto?","Você trabalha aqui?","Yes, I love it."],
+["We’re here for a wedding.","Estamos aqui para um casamento.","Estamos aqui a trabalho.","Estamos aqui de férias.","Congratulations! Enjoy it."],
+["How’s the traffic usually?","Como costuma ser o trânsito?","Tem muito trânsito agora?","Qual é o melhor caminho?","It’s busy at rush hour."],
+["Is Portuguese similar to Spanish?","O português é parecido com o espanhol?","Você fala espanhol?","Aqui se fala espanhol?","A little, but the pronunciation is very different."],
+["We loved the city.","Adoramos a cidade.","Queremos ver a cidade.","A cidade é grande.","I’m glad to hear that!"],
+["Any tips for tomorrow?","Alguma dica para amanhã?","Você trabalha amanhã?","Quanto é a gorjeta?","Visit Sintra early in the morning."]
 ];
 const SIMS=[
 {t:"Chegada no aeroporto",turns:[
@@ -404,7 +435,17 @@ const LIX=[
 ["Então devemos sair até às dez.","“Leaves” aqui = sai, parte. “Noon” = meio-dia."],
 ["Claro, deixa que eu levo.","“Help” = ajudar. “Bag” = bolsa."],
 ["Bem-vindo! Você vai adorar.","“First time” = primeira vez."],
-["Obrigado! Aproveite a estadia.","“Thanks” = obrigado. “Ride” = viagem."]
+["Obrigado! Aproveite a estadia.","“Thanks” = obrigado. “Ride” = viagem."],
+["Já faz alguns anos.","“How long” = há quanto tempo. “Lived” = morou, mora."],
+["Na maior parte do ano, sim!","“Sunny” vem de “sun” (sol). “Always” = sempre."],
+["Benfica ou Sporting, depende de quem você pergunta!","“Best” = melhor. “Team” = time, equipe."],
+["Vocês deveriam provar sardinha grelhada.","“Recommend” = recomendar. “Eat” = comer."],
+["Sim, adoro.","“Like” = gostar. “Living” = morar, viver."],
+["Parabéns! Aproveitem.","Não é férias nem trabalho: é uma festa importante."],
+["Fica cheio no horário de pico.","“Usually” = normalmente, costuma."],
+["Um pouco, mas a pronúncia é bem diferente.","“Similar” parece com português: parecido."],
+["Fico feliz em saber!","“Loved” = adoraram (passado de “love”)."],
+["Visite Sintra cedo pela manhã.","Cuidado: aqui “tips” não é gorjeta, é “dicas”."]
 ];
 const SIMPT=[["Sim, sou eu. Bem-vindo a Lisboa!","Que pena. Deixe-me ajudar com sua bagagem."],["Perfeito. Vai levar uns vinte minutos.","Um pouco, mas estamos bem."],["Quer que eu deixe mais fresco?","Claro, aqui está um carregador."],["São quarenta euros, com portagens incluídas.","Sim, cartão ou dinheiro, tanto faz."],["Sem problema, eu estava acompanhando seu voo.","Claro. Pode me passar o novo endereço?"],["Recomendo o Palácio da Pena primeiro, antes de lotar.","Umas duas horas. Vou esperar no estacionamento."],["Obrigado! Tenha uma ótima estadia em Lisboa.","Sim, aqui está meu cartão. Pode me chamar quando quiser."]];
 const WORDS=[],byId={};
@@ -512,7 +553,7 @@ const TABS=[["home","Início","home"],["practice","Praticar","cards"],["listen",
 let cur={s:"home"};const stack=[];let Q=null,G=null,Lc=0,gk=0,lastAct=Date.now();
 function go(s,p={}){if(TABS.some(t=>t[0]===s))stack.length=0;else stack.push(cur);cur=Object.assign({s},p);render();window.scrollTo(0,0);}
 function back(){cur=stack.pop()||{s:"home"};render();window.scrollTo(0,0);}
-const GNAMES={flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
+const GNAMES={dict:"Ditado",flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
 function header(){
  if(TABS.some(t=>t[0]===cur.s))return `<div class="brand">${LOGO}<span>DriverEnglish</span></div><button class="ibtn ghost" data-act="go" data-s="settings" aria-label="Configurações">${ic("user",24)}</button>`;
  let t={settings:"Configurações",library:"Vocabulário",phrases:"Frases profissionais",sims:"Simulação real",guide:"Can, Could ou May?"}[cur.s]||"";
@@ -563,6 +604,8 @@ function execBox(p,usedExec){
  return `<div class="execb"><span class="chip exec">Versão executiva</span><div class="en mt">${esc(p.ex)}</div><div class="lbl">Mais formal, ótima para transfer executivo. As duas estão certas.</div>${sayBtns(p.ex)}</div>`;
 }
 function softGrade(id){const x=it(id);x.s=1;x.d=tNum()+1;S.stats.answers++;S.stats.correct++;}
+const dictOk=l=>l.en.split(" ").length<=9;
+function makeDict(l){const words=l.en.split(" ");return {type:"build",dict:true,id:l.id,say:l.en,auto:true,acc:pickAccent(),exec:false,words,pool:shuffle(words.map((t,i)=>({t,i}))),picked:[],done:false,fb:"",tries:0,bad:[],msg:""};}
 function makeBuild(p){const pt=pText(p),words=pt.t.split(" ");return {type:"build",id:p.id,say:pt.t,exec:pt.x,words,pool:shuffle(words.map((t,i)=>({t,i}))),picked:[],done:false,fb:"",tries:0,bad:[],msg:""};}
 const STOP=new Set(["the","and","you","your","for","are","our","this","that","there","with","have","was","its","but","can","will","would","could","please","here","what","about","let","may","is","it","to","a","an"]);
 const clean=t=>t.toLowerCase().replace(/[.,?!“”]/g,"");
@@ -592,6 +635,13 @@ function renderQ(q){
  return `<div class="card">${q.top}</div><div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-act="answer" data-i="${i}">${esc(o.t)}</button>`).join("")}</div><div id="fb"></div>`;
 }
 function buildHTML(q){const p=byId[q.id];
+ const top=q.dict
+  ?`<div class="card center"><div class="lbl">Ouça e monte o que o passageiro disse</div>${TTS?`<div class="playrow"><button class="playbig" data-act="sayQ" aria-label="Ouvir de novo">${ic("play",36)}</button><button class="slow" data-act="sayQ" data-slow="1" aria-label="Ouvir devagar">Lento</button></div>${accLabel(q.acc)}`:`<div class="big2">“${esc(p.en)}”</div>`}${q.done?"":`<div class="row hrow"><button class="btn hbtn${q.help?" act":""}" data-act="dictHelp">Ajuda</button></div>${q.help?`<div class="lhelp"><b>Dica:</b> ${esc(p.h)}</div>`:""}`}</div>`
+  :"";
+ if(q.dict)return top+`
+ <div class="ans">${q.picked.length?q.picked.map((k,j)=>`<button class="tok${q.bad.includes(j)?" bad":""}" data-act="unpick" data-j="${j}"${q.done?" disabled":""}>${esc(q.pool[k].t)}</button>`).join(""):'<span class="lbl">Toque nas palavras na ordem em que ouviu</span>'}</div>
+ <div class="pool">${q.pool.map((o,k)=>q.picked.includes(k)?"":`<button class="tok" data-act="pick" data-k="${k}">${esc(o.t)}</button>`).join("")}</div>
+ <div id="berr" class="err"></div>${q.done?"":q.msg}${q.done?"":'<button class="btn pri wide mt" data-act="check">Verificar</button>'}<div id="fb">${q.fb}</div>`;
  return `<div class="card"><div class="lbl">Monte a frase em inglês${q.exec?' <span class="chip exec">versão executiva</span>':""}</div><div class="big2">${esc(p.pt)}</div></div>
  ${q.done?"":`<div class="tipb"><b>Dica:</b> a frase começa com letra maiúscula e termina com “.” ou “?”. Atenção: nomes e “I” (eu) também têm maiúscula.</div>`}
  <div class="ans">${q.picked.length?q.picked.map((k,j)=>`<button class="tok${q.bad.includes(j)?" bad":""}" data-act="unpick" data-j="${j}"${q.done?" disabled":""}>${esc(q.pool[k].t)}</button>`).join(""):'<span class="lbl">Toque nas palavras abaixo, na ordem certa</span>'}</div>
@@ -630,8 +680,10 @@ function checkBuild(){
  let h;
  if(ok)h=`<div class="fbok">${ic("check",20)} Certo!${q.tries?" Na segunda tentativa.":""}</div><div class="ex"><div class="en">${esc(q.say)}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(q.say)}</div>`;
  else h=`<div class="fbbad">Vamos ver a diferença:</div><div class="card mt"><div class="lbl">Você montou</div><div class="cmp">${mine.map((t,j)=>bad.includes(j)?`<span class="wr">${esc(t)}</span>`:esc(t)).join(" ")}</div><div class="lbl mt">O certo</div><div class="cmp b">${q.words.map((t,j)=>bad.includes(j)?`<span class="rt">${esc(t)}</span>`:esc(t)).join(" ")}</div><div class="lbl" style="font-size:15px">${esc(p.pt)}</div>${sayBtns(q.say)}</div>`;
- q.bad=ok?[]:bad;q.fb=h+whyBox(p)+execBox(p,q.exec)+nextBtn();
- $("#barea").innerHTML=buildHTML(q);speak(q.say);
+ const rb=q.dict?`<div class="ex"><div class="lbl">Você pode responder:</div><div class="en">${esc(p.r)}</div><div class="lbl" style="font-size:15px">${esc(p.rpt)}</div>${sayBtns(p.r)}</div>`:"";
+ if(q.dict&&ok)S.stats.listenOk++;
+ q.bad=ok?[]:bad;q.fb=h+rb+whyBox(p)+execBox(p,q.exec)+nextBtn();
+ $("#barea").innerHTML=buildHTML(q);speak(q.say,false,q.acc);
 }
 
 /* ---------- Sessão diária ---------- */
@@ -640,7 +692,8 @@ function buildSession(short){
  dueList(WORDS).slice(0,short?3:5).forEach(w=>st.push({k:"mcw",id:w.id,dir:Math.random()<.5?"en":"pt"}));
  if(!short){const nw=unseen(WORDS).slice(0,4);nw.forEach(w=>st.push({k:"learn",id:w.id}));nw.forEach(w=>st.push({k:"mcw",id:w.id,dir:"en"}));}
  const ls=[...new Set([...dueList(LISTEN),...unseen(LISTEN)])];
- (ls.length?ls:pickN(LISTEN,3)).slice(0,short?2:3).forEach(l=>st.push({k:"listen",id:l.id}));
+ const lsel=(ls.length?ls:pickN(LISTEN,3)).slice(0,short?2:3);lsel.forEach(l=>st.push({k:"listen",id:l.id}));
+ if(!short){const dc=[...dueList(LISTEN),...unseen(LISTEN),...pickN(LISTEN,LISTEN.length)].filter(l=>dictOk(l)&&!lsel.includes(l));if(dc.length)st.push({k:"dict",id:dc[0].id});}
  const ps=[...new Set([...dueList(PHRASES),...unseen(PHRASES)])];
  const pp=(ps.length?ps:pickN(PHRASES,2)).slice(0,short?1:2);
  pp.forEach(p=>st.push({k:"phrase",id:p.id}));
@@ -651,7 +704,7 @@ function buildSession(short){
 }
 function stepQ(st){
  switch(st.k){case"mcw":return makeMCWord(byId[st.id],st.dir);case"learn":return makeLearn(byId[st.id]);case"listen":return makeListen(byId[st.id]);
- case"phrase":return makePhrase(byId[st.id]);case"build":return makeBuild(byId[st.id]);case"fill":return makeFill(byId[st.id]);case"sim":return makeSim(st.si,st.ti);}
+ case"phrase":return makePhrase(byId[st.id]);case"dict":return makeDict(byId[st.id]);case"build":return makeBuild(byId[st.id]);case"fill":return makeFill(byId[st.id]);case"sim":return makeSim(st.si,st.ti);}
 }
 function startSession(short){
  const ses=S.session&&S.session.date===todayStr()?S.session:null;
@@ -674,13 +727,14 @@ function practicePhrase(ex,shortOnly){
 function gameQ(){
  const g=G;
  if(g.type==="sim")return makeSim(g.si,g.n);
+ if(g.type==="dict"){const pool=LISTEN.filter(l=>dictOk(l)&&!g.used.has(l.id));const d=dueList(pool),u=unseen(pool);const l=d[0]||u[0]||pickN(pool,1)[0];g.used.add(l.id);return makeDict(l);}
  if(g.type==="flash"){const w=practiceWord(g.used);g.used.add(w.id);introduce(w.id);return {type:"flash",id:w.id,say:w.en,auto:true,rev:false};}
  if(g.type==="quiz"){const w=practiceWord(g.used);g.used.add(w.id);introduce(w.id);return makeMCWord(w,Math.random()<.5?"en":"pt");}
  const p=practicePhrase(g.used,g.type==="build");g.used.add(p.id);
  return g.type==="fill"?makeFill(p):makeBuild(p);
 }
 function startGame(type,si){
- gk++;G={type,si:si===undefined?null:+si,n:0,ok:0,used:new Set(),total:type==="sim"?SIMS[+si].turns.length:10};
+ gk++;G={type,si:si===undefined?null:+si,n:0,ok:0,used:new Set(),total:type==="sim"?SIMS[+si].turns.length:type==="dict"?8:10};
  if(cur.s==="game"){cur={s:"game"};render();}else go("game");
  window.scrollTo(0,0);autoSpeak();
 }
@@ -694,7 +748,7 @@ const ACH=[
 {k:"d30",t:"Um mês",d:"30 dias de prática",f:()=>practicedDays()>=30},
 {k:"w25",t:"25 palavras",d:"25 palavras aprendidas",f:()=>learnedCount()>=25},
 {k:"w50",t:"50 palavras",d:"50 palavras aprendidas",f:()=>learnedCount()>=50},
-{k:"w100",t:"Vocabulário completo",d:"As 100 palavras aprendidas",f:()=>learnedCount()>=100},
+{k:"w100",t:"Cem palavras",d:"100 palavras aprendidas",f:()=>learnedCount()>=100},
 {k:"l50",t:"Bom ouvido",d:"50 acertos em Ouvir",f:()=>S.stats.listenOk>=50},
 {k:"sim",t:"Pronto para o cliente",d:"Todas as simulações concluídas",f:()=>SIMS.every((_,i)=>S.sims[i])}
 ];
@@ -750,12 +804,12 @@ V.listen=()=>{
  const key="L"+Lc;
  if(!Q||Q.key!==key){Q=makeListen(nextListen());Q.key=key;}
  const heard=LISTEN.filter(l=>seen(l.id)).length;
- return `<p class="lbl">Frases que os clientes dizem. Ouça e escolha o significado.</p><div class="row" style="justify-content:space-between;margin:8px 0 12px"><span class="chip">${heard} de ${LISTEN.length} ouvidas</span><button class="link" data-act="go" data-s="settings">Mudar sotaque</button></div>${renderQ(Q)}`;
+ return `<p class="lbl">Frases que os clientes dizem. Ouça e escolha o significado.</p><div class="row" style="justify-content:space-between;margin:8px 0 12px"><span class="chip">${heard} de ${LISTEN.length} ouvidas</span><button class="link" data-act="go" data-s="settings">Mudar sotaque</button></div>${renderQ(Q)}<button class="rowcard mt2" data-act="game" data-g="dict"><span class="rcic">${ic("blocks",22)}</span><span style="flex:1"><b>Treinar ditado</b><br><span class="lbl">Ouça e monte a frase com as palavras</span></span></button>`;
 };
 V.practice=()=>{
  const tile=(g,i,t,d)=>`<button class="tile" data-act="game" data-g="${g}"><span class="ti">${ic(i,22)}</span><b>${t}</b><span>${d}</span></button>`;
  const simDone=SIMS.filter((_,i)=>S.sims[i]).length;
- return `<h2 style="margin-top:6px">Jogos</h2><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
+ return `<h2 style="margin-top:6px">Jogos</h2><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b> <span class="chip exec">novo</span><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
  <h2>Conversa</h2><button class="rowcard" data-act="go" data-s="sims"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Simulação real</b><br><span class="lbl">Responda ao passageiro em ${SIMS.length} situações. ${simDone} ${simDone===1?"concluída":"concluídas"}.</span></span></button>
  <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div><button class="rowcard" data-act="go" data-s="guide"><span class="rcic">${ic("quiz",22)}</span><span style="flex:1"><b>Can, Could ou May?</b><br><span class="lbl">Dia a dia, educado ou executivo: quando usar cada um</span></span></button>`;
 };
@@ -796,7 +850,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.2.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.3.0</p>`;
 };
 
 /* ---------- Ações ---------- */
@@ -848,6 +902,7 @@ const A={
  export:()=>exportData(),
  import:()=>$("#imp").click(),
  reset:()=>{if(confirm("Apagar todo o progresso? Isto não pode ser desfeito.")){const n=S.name,st=S.settings;S=fresh();S.name=n;S.settings=st;S.onboarded=true;Q=null;save();go("home");toast("Progresso apagado");}},
+ dictHelp:()=>{if(!Q||!Q.dict)return;Q.help=!Q.help;$("#barea").innerHTML=buildHTML(Q);},
  lsText:(d,el)=>{const x=$("#lsT");if(x){x.hidden=!x.hidden;el.classList.toggle("act",!x.hidden);}},
  lsHelp:(d,el)=>{const x=$("#lsH");if(x){x.hidden=!x.hidden;el.classList.toggle("act",!x.hidden);}},
  showPt:()=>{const x=$("#ppt");if(x)x.hidden=!x.hidden;},
