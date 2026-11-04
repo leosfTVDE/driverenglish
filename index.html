@@ -476,25 +476,19 @@ const LISTEN=LI.map((l,i)=>{const o={id:"l"+i,en:l[0],pt:l[1],w1:l[2],w2:l[3],r:
 
 const MY=[
 {t:"Apresentação",q:"Introduce yourself. How long have you been driving passengers? What do you like about this job?",qpt:"Apresente-se. Há quanto tempo você dirige com passageiros? O que você gosta neste trabalho?",s:[
-["Hi, my name is Leonardo Favero.","Oi, meu nome é Leonardo Favero.",""],
-["I moved to Lisbon six years ago.","Mudei para Lisboa há seis anos.","“Ago” = há, atrás. Vai sempre no fim: “six years ago”."],
+["My name is Leonardo Favero.","Meu nome é Leonardo Favero.",""],
+["I live in Lisbon.","Moro em Lisboa.","“Live” = morar, viver."],
 ["I have been driving passengers for four years.","Dirijo com passageiros há quatro anos.","Repete as palavras da pergunta: “have been driving” = venho dirigindo. “For four years” = há quatro anos."],
-["I work as a taxi and transfer driver.","Trabalho como motorista de táxi e transfer.","“As” = como. “Work as a driver” = trabalhar como motorista."],
-["I like this job because I meet many people.","Gosto deste trabalho porque conheço muitas pessoas.","“Because” = porque. “Meet” = conhecer pessoas."],
-["They come from different countries and cultures.","Elas vêm de países e culturas diferentes.","“They” = elas. “Different” vem antes de “countries”."],
-["I always keep my car clean.","Sempre mantenho meu carro limpo.","“Keep” = manter. O “always” (sempre) vem antes do verbo."]]},
+["I like this job because every day I meet different people.","Gosto deste trabalho porque todo dia conheço pessoas diferentes.","“Because” = porque. “Every day” = todo dia. “Meet” = conhecer pessoas."]]},
 {t:"Pneu furado",q:"Imagine your car gets a flat tire while driving a passenger. What would you do?",qpt:"Imagine que o pneu do seu carro fura enquanto você leva um passageiro. O que você faria?",s:[
-["First, I stop the car in a safe place.","Primeiro, paro o carro num lugar seguro.","“First” = primeiro. “Safe place” = lugar seguro."],
-["I tell the passenger what is happening.","Explico ao passageiro o que está acontecendo.","“Tell” = dizer, contar. “What is happening” = o que está acontecendo."],
-["I check if I can fix the tire.","Vejo se consigo consertar o pneu.","“Check” = verificar. “Fix” = consertar. “If” = se."],
-["If I can’t fix it, I call DayTrip.","Se não conseguir consertar, ligo para a DayTrip.","“Can’t” = “cannot” (não consigo). “Call” = ligar."],
-["They send another driver, so the passenger can continue the trip.","Eles enviam outro motorista, para o passageiro continuar a viagem.","“Another” = outro. “So” = para que, assim."]]},
+["First, I stop in a safe place and check the tire.","Primeiro, paro num lugar seguro e vejo o pneu.","“First” = primeiro. “Safe place” = lugar seguro. “Check” = verificar."],
+["If I can’t fix it, I call DayTrip.","Se não conseguir consertar, ligo para a DayTrip.","“Can’t” = não consigo. “Fix” = consertar. “Call” = ligar."],
+["They send another car to continue the trip.","Eles mandam outro carro para continuar a viagem.","“Another” = outro. “To continue” = para continuar."]]},
 {t:"Criança com sede",q:"A customer’s child says they are thirsty, but you have no water in the car. What would you do?",qpt:"O filho de um cliente diz que está com sede, mas você não tem água no carro. O que você faria?",s:[
-["First, I ask the parents.","Primeiro, pergunto aos pais.","“Ask” = perguntar. “Parents” = pais (pai e mãe)."],
-["I ask if they want to stop at a shop or a gas station.","Pergunto se eles querem parar numa loja ou num posto de gasolina.","“If” = se. “Gas station” = posto de gasolina."],
-["If they say yes, I stop there.","Se disserem que sim, eu paro lá.","“Say yes” = dizer que sim. “There” = lá."],
-["Then the child can drink some water.","Assim a criança pode beber água.","“Then” = então, assim. “Drink” = beber."],
-["And I always try to have water in the car.","E procuro sempre ter água no carro.","“Try to” = tentar. Mostra que você aprendeu com a situação."]]}
+["I usually have water in my car.","Normalmente tenho água no carro.","“Usually” = normalmente. Vem antes do verbo."],
+["If I don’t, I ask the parents if they want to stop.","Se não tiver, pergunto aos pais se querem parar.","“If I don’t” = se eu não tiver. É curto e muito natural."],
+["Then I stop in a safe place and buy water.","Então paro num lugar seguro e compro água.","“Then” = então. “Buy” = comprar."],
+["Thank you very much. Bye!","Muito obrigado. Tchau!","Um fim simples e simpático para o vídeo."]]}
 ];
 MY.forEach((m,i)=>m.s.forEach((x,j)=>{byId["m"+i+"s"+j]={id:"m"+i+"s"+j,en:x[0],pt:x[1],why:x[2],ex:""};}));
 const myProg=i=>{const m=MY[i];return (m.s.filter((_,j)=>learned("m"+i+"s"+j)).length+(learned("m"+i)?1:0))/(m.s.length+1);};
@@ -549,7 +543,7 @@ if(!Array.isArray(S.mine))S.mine=[];
 const regMine=m=>{byId[m.id]={id:m.id,en:m.en,pt:m.pt,why:"",ex:"",mine:true};};
 S.mine.forEach(regMine);
 /* 1.6.0: as respostas pessoais mudaram; zera o progresso antigo delas */
-if(!S.myV2){Object.keys(S.items).forEach(k=>{if(/^m\d/.test(k))delete S.items[k];});S.myV2=1;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+if(S.myV2!==3){Object.keys(S.items).forEach(k=>{if(/^m\d/.test(k))delete S.items[k];});S.myV2=3;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 if(![0.75,0.95,1.1].includes(S.settings.rate))S.settings.rate=0.95;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(!saveWarned){saveWarned=true;toast("Não foi possível salvar o progresso neste navegador");}}}
 
@@ -967,7 +961,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.6.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.7.0</p>`;
 };
 
 /* ---------- Ações ---------- */
