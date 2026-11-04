@@ -879,19 +879,29 @@ V.myrun=()=>{
 };
 const norm=t=>String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
 let SIDX=null;
+const SW=t=>norm(t).split(" ").filter(Boolean);
 function searchIndex(){
  const L=[];
- WORDS.forEach(w=>L.push({k:"Palavra",en:w.en,pt:w.pt,ex:w.ex,expt:w.expt,h:norm(w.pt+" "+w.expt),e:norm(w.en+" "+w.ex)}));
- PHRASES.forEach(p=>L.push({k:"Frase",en:p.en,pt:p.pt,alt:p.ex,h:norm(p.pt),e:norm(p.en+" "+(p.ex||""))}));
- LISTEN.forEach(l=>{L.push({k:"O cliente diz",en:l.en,pt:l.pt,h:norm(l.pt),e:norm(l.en)});L.push({k:"Resposta",en:l.r,pt:l.rpt,h:norm(l.rpt),e:norm(l.r)});});
- MY.forEach(m=>m.s.forEach(x=>L.push({k:"Minhas respostas",en:x[0],pt:x[1],h:norm(x[1]),e:norm(x[0])})));
+ WORDS.forEach(w=>L.push({k:"Palavra",en:w.en,pt:w.pt,ex:w.ex,expt:w.expt,h:SW(w.pt+" "+w.expt),e:SW(w.en+" "+w.ex)}));
+ PHRASES.forEach(p=>L.push({k:"Frase",en:p.en,pt:p.pt,alt:p.ex,h:SW(p.pt),e:SW(p.en+" "+(p.ex||""))}));
+ LISTEN.forEach(l=>{L.push({k:"O cliente diz",en:l.en,pt:l.pt,h:SW(l.pt),e:SW(l.en)});L.push({k:"Resposta",en:l.r,pt:l.rpt,h:SW(l.rpt),e:SW(l.r)});});
+ MY.forEach(m=>m.s.forEach(x=>L.push({k:"Minhas respostas",en:x[0],pt:x[1],h:SW(x[1]),e:SW(x[0])})));
  return L;
 }
+/* palavras que não ajudam na busca */
+const STOPQ=new Set("eu o a os as um uma uns umas de do da dos das em no na nos nas para pra por com que e se me te lhe ele ela eles elas voce voces meu minha meus minhas seu sua seus suas aqui ali la isso isto esse essa este esta como digo dizer falar ingles quero ao aos mais ja the to of and i you".split(" "));
+/* raiz simples: “fecho”, “fechar” e “fechado” viram “fech” */
+const root=w=>w.length<=3?w:w.length<=5?w.slice(0,-1):w.slice(0,-2);
 function searchFor(q){
- const t=norm(q).split(" ").filter(w=>w.length>1);if(!t.length)return [];
+ const t=[...new Set(SW(q).filter(w=>!STOPQ.has(w)))].map(root);
+ if(!t.length)return [];
  if(!SIDX)SIDX=searchIndex();
- const all=S.mine.map(m=>({k:"Minha frase",en:m.en,pt:m.pt,h:norm(m.pt),e:norm(m.en)})).concat(SIDX);
- return all.map(o=>{let sc=0;for(const w of t){if(o.h.includes(w))sc+=2;else if(o.e.includes(w))sc+=1;else return null;}if(o.k==="Minha frase")sc+=3;if(o.k==="Frase"||o.k==="Resposta")sc+=1;return {o,sc};}).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,20).map(x=>x.o);
+ const all=S.mine.map(m=>({k:"Minha frase",en:m.en,pt:m.pt,h:SW(m.pt),e:SW(m.en)})).concat(SIDX);
+ const hit=(arr,r)=>arr.some(x=>x.startsWith(r));
+ const need=t.length>1?Math.ceil(t.length/2):1;
+ return all.map(o=>{let n=0,sc=0;for(const r of t){if(hit(o.h,r)){n++;sc+=2;}else if(r.length>=3&&hit(o.e,r)){n++;sc+=1;}}
+  if(n<need)return null;if(o.k==="Minha frase")sc+=3;if(o.k==="Frase")sc+=1;sc-=o.h.length*0.05;return {o,n,sc};})
+  .filter(Boolean).sort((a,b)=>b.n-a.n||b.sc-a.sc).slice(0,20).map(x=>x.o);
 }
 const claudeQ=pt=>`Como digo em inglês, de forma simples e do dia a dia, para falar com um cliente no carro: “${pt}”? Responda só com a frase em inglês e a tradução.`;
 function copyText(t){
@@ -950,7 +960,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.5.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.5.1</p>`;
 };
 
 /* ---------- Ações ---------- */
