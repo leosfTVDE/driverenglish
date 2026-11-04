@@ -475,21 +475,26 @@ const PHRASES=PH.map((p,i)=>{const o={id:"p"+i,en:p[0],pt:p[1],ctx:p[2],note:p[3
 const LISTEN=LI.map((l,i)=>{const o={id:"l"+i,en:l[0],pt:l[1],w1:l[2],w2:l[3],r:l[4],rpt:LIX[i][0],h:LIX[i][1]};byId[o.id]=o;return o;});
 
 const MY=[
-{t:"Apresentação",q:"Tell me about yourself.",qpt:"Fale sobre você.",s:[
+{t:"Apresentação",q:"Introduce yourself. How long have you been driving passengers? What do you like about this job?",qpt:"Apresente-se. Há quanto tempo você dirige com passageiros? O que você gosta neste trabalho?",s:[
 ["Hi, my name is Leonardo Favero.","Oi, meu nome é Leonardo Favero.",""],
-["I moved to Lisbon six years ago.","Mudei para Lisboa há seis anos.","“Ago” = há, atrás. “Six years ago” = há seis anos, e vai sempre no fim."],
+["I moved to Lisbon six years ago.","Mudei para Lisboa há seis anos.","“Ago” = há, atrás. Vai sempre no fim: “six years ago”."],
+["I have been driving passengers for four years.","Dirijo com passageiros há quatro anos.","Repete as palavras da pergunta: “have been driving” = venho dirigindo. “For four years” = há quatro anos."],
 ["I work as a taxi and transfer driver.","Trabalho como motorista de táxi e transfer.","“As” = como. “Work as a driver” = trabalhar como motorista."],
-["I started four years ago.","Comecei há quatro anos.","“Started” = comecei (passado de “start”)."],
-["I always keep my car clean.","Sempre mantenho meu carro limpo.","“Keep” = manter. O “always” (sempre) vem antes do verbo."]]},
-{t:"Por que gosto do trabalho",q:"Why do you like this job?",qpt:"Por que você gosta deste trabalho?",s:[
 ["I like this job because I meet many people.","Gosto deste trabalho porque conheço muitas pessoas.","“Because” = porque. “Meet” = conhecer pessoas."],
-["They come from different countries.","Elas vêm de países diferentes.","“They” = eles, elas. “Different” vem antes de “countries”."],
-["I like to learn about other cultures.","Gosto de aprender sobre outras culturas.","“Like to” + verbo = gostar de fazer algo."]]},
-{t:"Pneu furado",q:"What do you do if you get a flat tire?",qpt:"O que você faz se o pneu furar?",s:[
-["If I get a flat tire, I check if I can fix it.","Se o pneu furar, vejo se consigo consertar.","“Flat tire” = pneu furado. “Fix” = consertar. “If” = se."],
+["They come from different countries and cultures.","Elas vêm de países e culturas diferentes.","“They” = elas. “Different” vem antes de “countries”."],
+["I always keep my car clean.","Sempre mantenho meu carro limpo.","“Keep” = manter. O “always” (sempre) vem antes do verbo."]]},
+{t:"Pneu furado",q:"Imagine your car gets a flat tire while driving a passenger. What would you do?",qpt:"Imagine que o pneu do seu carro fura enquanto você leva um passageiro. O que você faria?",s:[
+["First, I stop the car in a safe place.","Primeiro, paro o carro num lugar seguro.","“First” = primeiro. “Safe place” = lugar seguro."],
+["I tell the passenger what is happening.","Explico ao passageiro o que está acontecendo.","“Tell” = dizer, contar. “What is happening” = o que está acontecendo."],
+["I check if I can fix the tire.","Vejo se consigo consertar o pneu.","“Check” = verificar. “Fix” = consertar. “If” = se."],
 ["If I can’t fix it, I call DayTrip.","Se não conseguir consertar, ligo para a DayTrip.","“Can’t” = “cannot” (não consigo). “Call” = ligar."],
-["They send another driver.","Eles enviam outro motorista.","“Another” = outro."],
-["Then the client can continue the trip.","Assim o cliente pode continuar a viagem.","“Then” = então, assim."]]}
+["They send another driver, so the passenger can continue the trip.","Eles enviam outro motorista, para o passageiro continuar a viagem.","“Another” = outro. “So” = para que, assim."]]},
+{t:"Criança com sede",q:"A customer’s child says they are thirsty, but you have no water in the car. What would you do?",qpt:"O filho de um cliente diz que está com sede, mas você não tem água no carro. O que você faria?",s:[
+["First, I ask the parents.","Primeiro, pergunto aos pais.","“Ask” = perguntar. “Parents” = pais (pai e mãe)."],
+["I ask if they want to stop at a shop or a gas station.","Pergunto se eles querem parar numa loja ou num posto de gasolina.","“If” = se. “Gas station” = posto de gasolina."],
+["If they say yes, I stop there.","Se disserem que sim, eu paro lá.","“Say yes” = dizer que sim. “There” = lá."],
+["Then the child can drink some water.","Assim a criança pode beber água.","“Then” = então, assim. “Drink” = beber."],
+["And I always try to have water in the car.","E procuro sempre ter água no carro.","“Try to” = tentar. Mostra que você aprendeu com a situação."]]}
 ];
 MY.forEach((m,i)=>m.s.forEach((x,j)=>{byId["m"+i+"s"+j]={id:"m"+i+"s"+j,en:x[0],pt:x[1],why:x[2],ex:""};}));
 const myProg=i=>{const m=MY[i];return (m.s.filter((_,j)=>learned("m"+i+"s"+j)).length+(learned("m"+i)?1:0))/(m.s.length+1);};
@@ -543,6 +548,8 @@ let S=load(),saveWarned=false;
 if(!Array.isArray(S.mine))S.mine=[];
 const regMine=m=>{byId[m.id]={id:m.id,en:m.en,pt:m.pt,why:"",ex:"",mine:true};};
 S.mine.forEach(regMine);
+/* 1.6.0: as respostas pessoais mudaram; zera o progresso antigo delas */
+if(!S.myV2){Object.keys(S.items).forEach(k=>{if(/^m\d/.test(k))delete S.items[k];});S.myV2=1;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 if(![0.75,0.95,1.1].includes(S.settings.rate))S.settings.rate=0.95;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(!saveWarned){saveWarned=true;toast("Não foi possível salvar o progresso neste navegador");}}}
 
@@ -861,7 +868,7 @@ V.listen=()=>{
 V.practice=()=>{
  const tile=(g,i,t,d)=>`<button class="tile" data-act="game" data-g="${g}"><span class="ti">${ic(i,22)}</span><b>${t}</b><span>${d}</span></button>`;
  const simDone=SIMS.filter((_,i)=>S.sims[i]).length;
- return `<h2 style="margin-top:6px">Minhas respostas</h2>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<h2>Jogos</h2><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b> <span class="chip exec">novo</span><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
+ return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<h2>Jogos</h2><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b> <span class="chip exec">novo</span><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
  <h2>Conversa</h2><button class="rowcard" data-act="go" data-s="sims"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Simulação real</b><br><span class="lbl">Responda ao passageiro em ${SIMS.length} situações. ${simDone} ${simDone===1?"concluída":"concluídas"}.</span></span></button>
  <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div><button class="rowcard" data-act="go" data-s="mine"><span class="rcic">${ic("plus",22)}</span><span style="flex:1"><b>Minhas frases</b><br><span class="lbl">${S.mine.length?S.mine.length+" "+(S.mine.length===1?"frase sua":"frases suas"):"Adicione as frases que você precisa no carro"}</span></span></button><button class="rowcard" data-act="ask"><span class="rcic">${ic("search",22)}</span><span style="flex:1"><b>Como digo…?</b><br><span class="lbl">Procure em português e veja como se diz em inglês</span></span></button><button class="rowcard" data-act="go" data-s="guide"><span class="rcic">${ic("quiz",22)}</span><span style="flex:1"><b>Can, Could ou May?</b><br><span class="lbl">Dia a dia, educado ou executivo: quando usar cada um</span></span></button>`;
 };
@@ -869,7 +876,7 @@ V.myrun=()=>{
  const i=cur.m,m=MY[i],n=m.s.length,st=cur.st,full=m.s.map(x=>x[0]).join(" ");
  const steps=["Ouvir","Repetir","Montar","Falar sozinho"];
  const chips=st<4?`<div class="steps">${steps.map((t,k)=>`<button class="stp${k<st?" d":k===st?" c":""}" data-act="myStep" data-st="${k}"><i>${k<st?ic("check",14):k+1}</i>${t}</button>`).join("")}</div>`:"";
- const qb=`<div class="bubble"><div class="who">Entrevistador</div><div class="en">${esc(m.q)}</div><div class="lbl">${esc(m.qpt)}</div>${sayBtns(m.q)}</div>`;
+ const qb=`<div class="bubble"><div class="who">Pergunta do vídeo</div><div class="en">${esc(m.q)}</div><div class="lbl">${esc(m.qpt)}</div>${sayBtns(m.q)}</div>`;
  const audio=TTS?`<button class="btn" data-act="sayQ">${ic("vol",18)} Ouvir</button><button class="btn" data-act="sayQ" data-slow="1">Lento</button>`:"";
  if(st===0){Q={key:"M0",say:full};return chips+qb+`<div class="card mt"><div class="lbl">Sua resposta</div>${m.s.map(x=>`<div style="margin-top:10px"><div class="en">${esc(x[0])}</div><div class="lbl" style="font-size:15px">${esc(x[1])}</div></div>`).join("")}<div class="row mt">${audio}</div></div><button class="btn pri wide mt" data-act="myStep" data-st="1">Próximo: repetir</button>`;}
  if(st===1){const x=m.s[cur.j];Q={key:"M1",say:x[0]};return chips+`<div class="lbl" style="margin-bottom:8px">Frase ${cur.j+1} de ${n}</div><div class="card"><div class="big2">${esc(x[0])}</div><div class="pt">${esc(x[1])}</div>${x[2]?`<div class="note">${esc(x[2])}</div>`:""}<div class="row mt">${audio}${REC?`<button class="btn" id="recBtn" data-act="rec">${ic("mic",18)} Gravar</button>`:""}</div><div id="rec" class="row mt"></div></div><button class="btn pri wide mt" data-act="myRep">Já repeti em voz alta</button>`;}
@@ -960,7 +967,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.5.1</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.6.0</p>`;
 };
 
 /* ---------- Ações ---------- */
