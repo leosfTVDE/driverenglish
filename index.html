@@ -527,18 +527,17 @@ const RQ=[
 const REPLY=RQ.map((r,i)=>{const o={id:"r"+i,q:r[0],qpt:r[1],frame:r[2],keys:r[3],a:[r[4],r[5],r[6]],en:r[5][0],pt:r[5][1]};byId[o.id]=o;return o;});
 const MY=[
 {t:"Apresentação",q:"Introduce yourself. How long have you been driving passengers? What do you like about this job?",qpt:"Apresente-se. Há quanto tempo você dirige com passageiros? O que você gosta neste trabalho?",s:[
-["My name is Leonardo Favero.","Meu nome é Leonardo Favero.",""],
-["I live in Lisbon.","Moro em Lisboa.","“Live” = morar, viver."],
-["I have been driving passengers for four years.","Dirijo com passageiros há quatro anos.","Repete as palavras da pergunta: “have been driving” = venho dirigindo. “For four years” = há quatro anos."],
-["I like this job because every day I meet different people.","Gosto deste trabalho porque todo dia conheço pessoas diferentes.","“Because” = porque. “Every day” = todo dia. “Meet” = conhecer pessoas."]]},
+["Hi, my name is Leonardo Favero.","Oi, meu nome é Leonardo Favero.",""],
+["I have lived in Lisbon for six years,","Moro em Lisboa há seis anos,","“I have lived… for six years” = moro há seis anos. Não diga “I live in Lisbon six years”: falta o “have” e o “for”."],
+["and I have been driving passengers for four years.","e dirijo com passageiros há quatro anos.","Mesmo formato da frase anterior: “have been driving… for four years”."],
+["I like this job because every day I meet different people from different countries.","Gosto deste trabalho porque todo dia conheço pessoas diferentes, de países diferentes.","“Because” = porque. “From different countries” = de países diferentes."]]},
 {t:"Pneu furado",q:"Imagine your car gets a flat tire while driving a passenger. What would you do?",qpt:"Imagine que o pneu do seu carro fura enquanto você leva um passageiro. O que você faria?",s:[
-["First, I stop in a safe place and check the tire.","Primeiro, paro num lugar seguro e vejo o pneu.","“First” = primeiro. “Safe place” = lugar seguro. “Check” = verificar."],
-["If I can’t fix it, I call DayTrip.","Se não conseguir consertar, ligo para a DayTrip.","“Can’t” = não consigo. “Fix” = consertar. “Call” = ligar."],
-["They send another car to continue the trip.","Eles mandam outro carro para continuar a viagem.","“Another” = outro. “To continue” = para continuar."]]},
+["About the flat tire: first, I stop in a safe place and check the tire.","Sobre o pneu furado: primeiro, paro num lugar seguro e vejo o pneu.","“About the flat tire” = sobre o pneu furado. É assim que você muda de assunto, sem repetir a pergunta."],
+["If I can’t fix it, I call DayTrip,","Se não conseguir consertar, ligo para a DayTrip,","“Can’t” = não consigo. “Fix” = consertar. “Call” = ligar."],
+["and they send another car to continue the trip.","e eles mandam outro carro para continuar a viagem.","“Another” = outro. “To continue” = para continuar."]]},
 {t:"Criança com sede",q:"A customer’s child says they are thirsty, but you have no water in the car. What would you do?",qpt:"O filho de um cliente diz que está com sede, mas você não tem água no carro. O que você faria?",s:[
-["I usually have water in my car.","Normalmente tenho água no carro.","“Usually” = normalmente. Vem antes do verbo."],
-["If I don’t, I ask the parents if they want to stop.","Se não tiver, pergunto aos pais se querem parar.","“If I don’t” = se eu não tiver. É curto e muito natural."],
-["Then I stop in a safe place and buy water.","Então paro num lugar seguro e compro água.","“Then” = então. “Buy” = comprar."],
+["About the child: I usually have water in my car.","Sobre a criança: normalmente tenho água no carro.","“About the child” = sobre a criança. “Usually” = normalmente, vem antes do verbo."],
+["If I don’t, I ask the parents if they want to stop, and I buy water.","Se não tiver, pergunto aos pais se querem parar, e compro água.","“If I don’t” = se eu não tiver. “Ask” = perguntar. “Buy” = comprar."],
 ["Thank you very much. Bye!","Muito obrigado. Tchau!","Um fim simples e simpático para o vídeo."]]}
 ];
 MY.forEach((m,i)=>m.s.forEach((x,j)=>{byId["m"+i+"s"+j]={id:"m"+i+"s"+j,en:x[0],pt:x[1],why:x[2],ex:""};}));
@@ -596,7 +595,7 @@ if(!Array.isArray(S.mine))S.mine=[];
 const regMine=m=>{byId[m.id]={id:m.id,en:m.en,pt:m.pt,why:"",ex:"",mine:true};};
 S.mine.forEach(regMine);
 /* 1.6.0: as respostas pessoais mudaram; zera o progresso antigo delas */
-if(S.myV2!==3){Object.keys(S.items).forEach(k=>{if(/^m\d/.test(k))delete S.items[k];});S.myV2=3;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+if(S.myV2!==4){Object.keys(S.items).forEach(k=>{if(/^m\d/.test(k))delete S.items[k];});S.myV2=4;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 if(![0.75,0.95,1.1].includes(S.settings.rate))S.settings.rate=0.95;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(!saveWarned){saveWarned=true;toast("Não foi possível salvar o progresso neste navegador");}}}
 
@@ -606,7 +605,7 @@ const FB={key:"AIzaSyA8nLsyc5fctYFPlbp9y_Wzr01OzGaNeb0",proj:"driverenglish-ad23
 const fbUrl=id=>`https://firestore.googleapis.com/v1/projects/${FB.proj}/databases/(default)/documents/boards/${encodeURIComponent(id)}?key=${FB.key}`;
 function newBoardId(){const a=new Uint8Array(24);crypto.getRandomValues(a);return Array.from(a,b=>"abcdefghijkmnpqrstuvwxyz23456789"[b%32]).join("");}
 const DEFAULT_BLOCKS=[
-{en:"Hi, my name is Leonardo Favero. I live in Lisbon, and I have been driving passengers for four years. I like this job because every day I meet different people from different countries.",pt:"Oi, meu nome é Leonardo Favero. Moro em Lisboa e dirijo com passageiros há quatro anos. Gosto deste trabalho porque todo dia conheço pessoas diferentes, de países diferentes."},
+{en:"Hi, my name is Leonardo Favero. I have lived in Lisbon for six years, and I have been driving passengers for four years. I like this job because every day I meet different people from different countries.",pt:"Oi, meu nome é Leonardo Favero. Moro em Lisboa há seis anos e dirijo com passageiros há quatro anos. Gosto deste trabalho porque todo dia conheço pessoas diferentes, de países diferentes."},
 {en:"About the flat tire: first, I stop in a safe place and check the tire. If I can’t fix it, I call DayTrip, and they send another car to continue the trip.",pt:"Sobre o pneu furado: primeiro, paro num lugar seguro e vejo o pneu. Se não conseguir consertar, ligo para a DayTrip, e eles mandam outro carro para continuar a viagem."},
 {en:"About the child: I usually have water in my car. If I don’t, I ask the parents if they want to stop, and I buy water.",pt:"Sobre a criança: normalmente tenho água no carro. Se não tiver, pergunto aos pais se querem parar, e compro água."},
 {en:"Thank you very much. Bye!",pt:"Muito obrigado. Tchau!"}];
@@ -1070,7 +1069,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 2.0.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 2.0.1</p>`;
 };
 
 /* ---------- Ações ---------- */
