@@ -100,6 +100,7 @@ textarea[data-b]{min-height:120px}
 .tx-blk:first-child{border-top:0;padding-top:4px}
 .tx-blk .tx-en,.tx-blk .tx-pt{white-space:pre-line}
 .tx-blk .tx-pt{margin-top:10px}
+.kchip{display:inline-block;font-size:13px;font-weight:700;padding:5px 10px;border-radius:10px;margin:4px 4px 0 0}.kchip.ok{background:var(--ok-soft);color:var(--ok)}.kchip.no{background:var(--err-soft);color:var(--err)}
 .say{display:inline-flex;gap:8px;margin-top:12px;align-items:center}
 .link{background:none;border:0;color:var(--pri);font-weight:600;padding:10px 4px;min-height:44px}
 .prog{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin:4px 0 16px}
@@ -491,6 +492,39 @@ CATS.forEach((c,ci)=>c.w.forEach(w=>{const o={id:"w"+WORDS.length,en:w[0],pt:w[1
 const PHRASES=PH.map((p,i)=>{const o={id:"p"+i,en:p[0],pt:p[1],ctx:p[2],note:p[3],ex:p[4],why:p[5]};byId[o.id]=o;return o;});
 const LISTEN=LI.map((l,i)=>{const o={id:"l"+i,en:l[0],pt:l[1],w1:l[2],w2:l[3],r:l[4],rpt:LIX[i][0],h:LIX[i][1]};byId[o.id]=o;return o;});
 
+const RQ=[
+["How long to the airport?","Quanto tempo até o aeroporto?","About ___ minutes.",[["about","around"],["minutes","minute"]],["About twenty minutes.","Uns vinte minutos."],["It takes about twenty minutes.","Leva uns vinte minutos."],["It takes about twenty minutes. It depends on the traffic.","Leva uns vinte minutos. Depende do trânsito."]],
+["How much is it?","Quanto custa?","It’s ___ euros.",[["euros","euro"]],["Forty euros.","Quarenta euros."],["It’s forty euros.","São quarenta euros."],["It’s forty euros. The tolls are included.","São quarenta euros. As portagens estão incluídas."]],
+["Can I pay by card?","Posso pagar com cartão?","Yes, ___.",[["yes","sure"],["card"]],["Yes, sure.","Sim, claro."],["Yes, you can pay by card.","Sim, pode pagar com cartão."],["Yes, you can pay by card or cash.","Sim, pode pagar com cartão ou dinheiro."]],
+["Is it far?","É longe?","No, it’s ___.",[["no","yes"],["close","near","minutes","far"]],["No, it’s close.","Não, é perto."],["No, it’s about ten minutes.","Não, são uns dez minutos."],["No, it’s about ten minutes from here.","Não, são uns dez minutos daqui."]],
+["Can you turn on the AC?","Pode ligar o ar?","Sure, ___.",[["sure","yes","of course","ok","okay"]],["Sure!","Claro!"],["Sure, no problem.","Claro, sem problema."],["Sure. Is this temperature okay?","Claro. Esta temperatura está boa?"]],
+["Can you open the trunk?","Pode abrir o porta-malas?","Sure, ___.",[["sure","yes","of course","ok","okay"]],["Yes, one moment.","Sim, um momento."],["Sure, I’ll open it now.","Claro, vou abrir agora."],["Sure, I’ll open it. Let me help you with the bags.","Claro, vou abrir. Deixe-me ajudar com as malas."]],
+["Where are you from?","De onde você é?","I’m from ___.",[["brazil"]],["Brazil.","Do Brasil."],["I’m from Brazil.","Sou do Brasil."],["I’m from Brazil, but I live in Lisbon.","Sou do Brasil, mas moro em Lisboa."]],
+["How long have you lived here?","Há quanto tempo mora aqui?","About ___ years.",[["six","6"],["years","year"]],["Six years.","Seis anos."],["About six years.","Uns seis anos."],["I moved here six years ago.","Mudei para cá há seis anos."]],
+["Do you like Lisbon?","Gosta de Lisboa?","Yes, I ___ it.",[["yes"],["love","like"]],["Yes, I love it.","Sim, adoro."],["Yes, I love Lisbon.","Sim, adoro Lisboa."],["Yes, I love Lisbon. It’s a beautiful city.","Sim, adoro Lisboa. É uma cidade linda."]],
+["What do you recommend to eat?","O que recomenda comer?","Try the ___.",[["try","nata","sardines","fish"]],["Pastel de nata!","Pastel de nata!"],["Try the pastel de nata.","Prove o pastel de nata."],["Try the pastel de nata and the grilled sardines.","Prove o pastel de nata e as sardinhas grelhadas."]],
+["Is the restaurant open now?","O restaurante está aberto agora?","I think ___.",[["open","think","check"]],["Yes, it’s open.","Sim, está aberto."],["Yes, it’s open until eleven.","Sim, fica aberto até as onze."],["I think so. Let me check on my phone.","Acho que sim. Deixa eu ver no celular."]],
+["Can we stop here?","Podemos parar aqui?","Yes, ___.",[["yes","sure","sorry","no"]],["Yes, sure.","Sim, claro."],["Sure, I’ll stop here.","Claro, vou parar aqui."],["Sorry, I can’t stop here. I’ll stop on the next street.","Desculpe, aqui não posso parar. Vou parar na próxima rua."]],
+["Do you have water?","Tem água?","Yes, ___.",[["yes","sorry","no","here"]],["Yes, here you go.","Sim, aqui está."],["Yes, there is water in the back.","Sim, tem água atrás."],["Sorry, I don’t have water now. We can stop to buy some.","Desculpe, agora não tenho água. Podemos parar para comprar."]],
+["Do you have a charger?","Tem carregador?","Yes, ___.",[["yes","sorry"]],["Yes, here.","Sim, aqui."],["Yes. iPhone or Android?","Sim. iPhone ou Android?"],["Yes, there is a cable here. iPhone or Android?","Sim, tem um cabo aqui. iPhone ou Android?"]],
+["Can I open the window?","Posso abrir a janela?","Of course, ___.",[["yes","sure","of course","ok","okay"]],["Of course.","Claro."],["Of course, no problem.","Claro, sem problema."],["Of course. Do you want me to turn off the AC?","Claro. Quer que eu desligue o ar?"]],
+["Is there a lot of traffic?","Tem muito trânsito?","A little, ___.",[["little","traffic","no","yes"]],["A little.","Um pouco."],["A little, but it’s okay.","Um pouco, mas está tudo bem."],["Yes, a lot. We will arrive in about thirty minutes.","Sim, muito. Vamos chegar em uns trinta minutos."]],
+["Where can we see the sunset?","Onde podemos ver o pôr do sol?","I recommend ___.",[["recommend","cabo","miradouro","belem"]],["Cabo da Roca.","Cabo da Roca."],["I recommend Miradouro da Senhora do Monte.","Recomendo o Miradouro da Senhora do Monte."],["I recommend Cabo da Roca. It’s beautiful at sunset.","Recomendo o Cabo da Roca. É lindo no pôr do sol."]],
+["How long is the tour?","Quanto tempo dura o tour?","About ___ hours.",[["hours","hour"]],["Four hours.","Quatro horas."],["It’s about four hours.","São umas quatro horas."],["About four hours, with stops for photos.","Umas quatro horas, com paradas para fotos."]],
+["Can you wait for us?","Pode nos esperar?","Yes, I’ll ___.",[["yes","sure"],["wait","problem"]],["Yes, no problem.","Sim, sem problema."],["Yes, I’ll wait here.","Sim, vou esperar aqui."],["Yes, I’ll wait here. Take your time.","Sim, vou esperar aqui. Sem pressa."]],
+["What time will you pick us up?","A que horas vai nos buscar?","At ___.",[["at"]],["At nine.","Às nove."],["I’ll pick you up at nine.","Vou buscar vocês às nove."],["I’ll pick you up at nine, at the hotel door.","Vou buscar vocês às nove, na porta do hotel."]],
+["Can I smoke?","Posso fumar?","Sorry, ___.",[["sorry","no"]],["Sorry, no.","Desculpe, não."],["Sorry, you can’t smoke in the car.","Desculpe, não pode fumar no carro."],["Sorry, you can’t smoke in the car. We can stop if you want.","Desculpe, não pode fumar no carro. Podemos parar, se quiser."]],
+["Is this car electric?","Este carro é elétrico?","Yes, it’s ___.",[["yes"]],["Yes, it is.","Sim, é."],["Yes, it’s a Tesla.","Sim, é um Tesla."],["Yes, it’s a Tesla. It’s very quiet.","Sim, é um Tesla. É bem silencioso."]],
+["Do you speak Portuguese?","Você fala português?","Yes, I ___.",[["yes"]],["Yes, I do.","Sim, falo."],["Yes, I’m Brazilian.","Sim, sou brasileiro."],["Yes. I speak Portuguese and a little English.","Sim. Falo português e um pouco de inglês."]],
+["Where can I buy a SIM card?","Onde posso comprar um chip de celular?","At the ___.",[["airport","shop","store"]],["At the airport.","No aeroporto."],["You can buy one at the airport.","Pode comprar um no aeroporto."],["At the airport or in any phone shop.","No aeroporto ou em qualquer loja de celular."]],
+["Is it safe here at night?","É seguro aqui à noite?","Yes, it’s ___.",[["safe"]],["Yes, it’s safe.","Sim, é seguro."],["Yes, Lisbon is very safe.","Sim, Lisboa é muito segura."],["Yes, it’s safe. Just be careful with your phone.","Sim, é seguro. Só tenha cuidado com o celular."]],
+["Do I need to give a tip?","Preciso dar gorjeta?","No, ___.",[["no","not"]],["No, it’s okay.","Não, tudo bem."],["No, it’s not necessary.","Não, não é necessário."],["No, it’s not necessary, but thank you.","Não, não é necessário, mas obrigado."]],
+["Can I have a receipt?","Pode me dar um recibo?","Sure, ___.",[["sure","yes","of course"]],["Sure.","Claro."],["Sure, I’ll send it by email.","Claro, envio por email."],["Sure. What is your email?","Claro. Qual é o seu email?"]],
+["How is the weather tomorrow?","Como vai estar o tempo amanhã?","I think it will be ___.",[["sunny","sun","rain","cold","hot"]],["Sunny, I think.","Sol, acho."],["I think it will be sunny.","Acho que vai fazer sol."],["I think it will be sunny, but check the app.","Acho que vai fazer sol, mas veja no app."]],
+["Is the beach far from here?","A praia é longe daqui?","About ___ minutes by car.",[["minutes","far","close","near"]],["Twenty minutes.","Vinte minutos."],["It’s about twenty minutes by car.","São uns vinte minutos de carro."],["It’s about twenty minutes. Cascais is very nice.","São uns vinte minutos. Cascais é muito bonita."]],
+["Thank you, have a nice day!","Obrigado, tenha um bom dia!","You ___!",[["you","thank"]],["You too!","Para você também!"],["Thank you, you too!","Obrigado, para você também!"],["Thank you! Enjoy Lisbon!","Obrigado! Aproveite Lisboa!"]]
+];
+const REPLY=RQ.map((r,i)=>{const o={id:"r"+i,q:r[0],qpt:r[1],frame:r[2],keys:r[3],a:[r[4],r[5],r[6]],en:r[5][0],pt:r[5][1]};byId[o.id]=o;return o;});
 const MY=[
 {t:"Apresentação",q:"Introduce yourself. How long have you been driving passengers? What do you like about this job?",qpt:"Apresente-se. Há quanto tempo você dirige com passageiros? O que você gosta neste trabalho?",s:[
 ["My name is Leonardo Favero.","Meu nome é Leonardo Favero.",""],
@@ -648,7 +682,7 @@ const TABS=[["home","Início","home"],["practice","Praticar","cards"],["listen",
 let cur={s:"home"};const stack=[];let Q=null,G=null,Lc=0,gk=0,lastAct=Date.now();
 function go(s,p={}){if(TABS.some(t=>t[0]===s))stack.length=0;else stack.push(cur);cur=Object.assign({s},p);render();window.scrollTo(0,0);}
 function back(){cur=stack.pop()||{s:"home"};render();window.scrollTo(0,0);}
-const GNAMES={mine:"Minhas frases",dict:"Ditado",flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
+const GNAMES={reply:"Responder ao cliente",mine:"Minhas frases",dict:"Ditado",flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
 function header(){
  if(TABS.some(t=>t[0]===cur.s))return `<div class="brand">${LOGO}<span>DriverEnglish</span></div><button class="ibtn ghost" data-act="go" data-s="settings" aria-label="Configurações">${ic("user",24)}</button>`;
  let t={settings:"Configurações",library:"Vocabulário",phrases:"Frases profissionais",sims:"Simulação real",guide:"Can, Could ou May?",ask:"Como digo em inglês?",mine:"Minhas frases",mineAdd:"Nova frase",board:"Tela do Tesla"}[cur.s]||"";
@@ -724,7 +758,25 @@ function makeSim(si,ti){
   top:`<span class="chip">Parte ${ti+1} de ${sc.turns.length}</span><div class="bubble"><div class="who">Passageiro</div><div class="en">${esc(t.p)}</div><div id="ppt" class="lbl" hidden>${esc(t.pt)}</div><div class="row">${TTS?`<button class="ibtn" data-act="sayQ" aria-label="Ouvir o passageiro">${ic("vol",20)}</button>`:""}<button class="link" data-act="showPt">Ver tradução</button></div></div><div class="lbl mt">Qual é a melhor resposta?</div>`,
   opts:shuffle(t.o.map(o=>({t:o[0],ok:!!o[1],fb:o[2]})))};
 }
+function makeReply(r){return {type:"reply",id:r.id,say:r.q,auto:true,acc:pickAccent(),done:false};}
+function replyHTML(q){const r=byId[q.id];
+ return `<div class="bubble"><div class="who">Cliente</div><div class="en">${esc(r.q)}</div><div id="ppt" class="lbl" hidden>${esc(r.qpt)}</div><div class="row">${TTS?`<button class="ibtn" data-act="sayQ" aria-label="Ouvir o cliente">${ic("vol",20)}</button><button class="ibtn sm" data-act="sayQ" data-slow="1">Lento</button>`:""}<button class="link" data-act="showPt">Ver tradução</button></div></div>
+ <div class="tipb"><b>Molde:</b> ${esc(r.frame)}</div>
+ <label class="lbl" for="rpA" style="display:block;margin-top:14px">Sua resposta em inglês</label>
+ <textarea id="rpA" placeholder="Escreva ou dite pelo microfone do teclado…" autocapitalize="sentences" autocomplete="off" spellcheck="false"${q.done?" disabled":""}>${esc(q.txt||"")}</textarea>
+ <div id="rpOut">${q.done?replyOut(q):`<button class="btn pri wide mt" data-act="rpShow">Ver respostas</button><p class="note center">Não sabe? Tudo bem, toque em “Ver respostas” e aprenda com elas.</p>`}</div>`;}
+function replyOut(q){const r=byId[q.id],t=" "+norm(q.txt||"")+" ";
+ const got=r.keys.map(alts=>alts.some(w=>t.includes(" "+norm(w)+" ")));
+ const n=got.filter(Boolean).length,empty=!norm(q.txt||"");
+ const chips=r.keys.map((alts,i)=>`<span class="kchip ${got[i]?"ok":"no"}">${got[i]?"✓":"✗"} ${esc(alts[0])}</span>`).join("");
+ const msg=empty?"Sem problema. Leia, ouça e repita as respostas abaixo.":n===r.keys.length?"Boa! Você usou as palavras principais.":n?"Quase. Repare nas palavras em vermelho.":`Tente começar pelo molde: “${r.frame}”`;
+ const lab=["Curta","Normal","Completa"];
+ return `${empty?`<p class="note">${esc(msg)}</p>`:`<div class="card mt"><div class="lbl">Palavras-chave</div><div style="margin-top:4px">${chips}</div><div class="note" style="margin-top:8px">${esc(msg)}</div></div>`}
+ ${r.a.map((x,i)=>`<div class="card mt"><span class="chip${i===2?" exec":""}">${lab[i]}</span><div class="en mt">${esc(x[0])}</div><div class="lbl" style="font-size:15px">${esc(x[1])}</div>${sayBtns(x[0])}</div>`).join("")}
+ <p class="note center mt2">Ouça uma das respostas e repita em voz alta. A sua ficou parecida?</p>
+ <div class="grid2 mt"><button class="btn" data-act="rpRate" data-ok="0">Ainda não</button><button class="btn pri" data-act="rpRate" data-ok="1">Sim</button></div>`;}
 function renderQ(q){
+ if(q.type==="reply")return replyHTML(q);
  if(q.type==="learn"||q.type==="phrase")return q.html;
  if(q.type==="build")return `<div id="barea">${buildHTML(q)}</div>`;
  if(q.type==="flash")return flashHTML(q);
@@ -789,6 +841,7 @@ function buildSession(short){
  if(!short){const nw=unseen(WORDS).slice(0,4);nw.forEach(w=>st.push({k:"learn",id:w.id}));nw.forEach(w=>st.push({k:"mcw",id:w.id,dir:"en"}));}
  const ls=[...new Set([...dueList(LISTEN),...unseen(LISTEN)])];
  const lsel=(ls.length?ls:pickN(LISTEN,3)).slice(0,short?2:3);lsel.forEach(l=>st.push({k:"listen",id:l.id}));
+ if(!short){const rp=dueList(REPLY)[0]||unseen(REPLY)[0];if(rp)st.push({k:"reply",id:rp.id});}
  if(!short&&S.mine.length){const mp=S.mine.map(m=>byId[m.id]).filter(Boolean);const pick=dueList(mp)[0]||unseen(mp)[0];if(pick)st.push({k:"build",id:pick.id});}
  if(!short){const dc=[...dueList(LISTEN),...unseen(LISTEN),...pickN(LISTEN,LISTEN.length)].filter(l=>dictOk(l)&&!lsel.includes(l));if(dc.length)st.push({k:"dict",id:dc[0].id});}
  const ps=[...new Set([...dueList(PHRASES),...unseen(PHRASES)])];
@@ -801,7 +854,7 @@ function buildSession(short){
 }
 function stepQ(st){
  switch(st.k){case"mcw":return makeMCWord(byId[st.id],st.dir);case"learn":return makeLearn(byId[st.id]);case"listen":return makeListen(byId[st.id]);
- case"phrase":return makePhrase(byId[st.id]);case"dict":return makeDict(byId[st.id]);case"build":return makeBuild(byId[st.id]);case"fill":return makeFill(byId[st.id]);case"sim":return makeSim(st.si,st.ti);}
+ case"phrase":return makePhrase(byId[st.id]);case"dict":return makeDict(byId[st.id]);case"reply":return makeReply(byId[st.id]);case"build":return makeBuild(byId[st.id]);case"fill":return makeFill(byId[st.id]);case"sim":return makeSim(st.si,st.ti);}
 }
 function startSession(short){
  const ses=S.session&&S.session.date===todayStr()?S.session:null;
@@ -824,6 +877,7 @@ function practicePhrase(ex,shortOnly){
 function gameQ(){
  const g=G;
  if(g.type==="sim")return makeSim(g.si,g.n);
+ if(g.type==="reply"){const pool=REPLY.filter(r=>!g.used.has(r.id));const d=dueList(pool),u=unseen(pool);const r=d[0]||u[0]||pickN(pool,1)[0];g.used.add(r.id);return makeReply(r);}
  if(g.type==="mine"){const pool=S.mine.map(m=>byId[m.id]).filter(p=>p&&!g.used.has(p.id));const d=dueList(pool),u=unseen(pool);const p=d[0]||u[0]||pickN(pool,1)[0];g.used.add(p.id);return makeBuild(p);}
  if(g.type==="dict"){const pool=LISTEN.filter(l=>dictOk(l)&&!g.used.has(l.id));const d=dueList(pool),u=unseen(pool);const l=d[0]||u[0]||pickN(pool,1)[0];g.used.add(l.id);return makeDict(l);}
  if(g.type==="flash"){const w=practiceWord(g.used);g.used.add(w.id);introduce(w.id);return {type:"flash",id:w.id,say:w.en,auto:true,rev:false};}
@@ -908,7 +962,7 @@ V.listen=()=>{
 V.practice=()=>{
  const tile=(g,i,t,d)=>`<button class="tile" data-act="game" data-g="${g}"><span class="ti">${ic(i,22)}</span><b>${t}</b><span>${d}</span></button>`;
  const simDone=SIMS.filter((_,i)=>S.sims[i]).length;
- return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<button class="rowcard mt" data-act="go" data-s="board"><span class="rcic">${ic("car",22)}</span><span style="flex:1"><b>Tela do Tesla</b><br><span class="lbl">Escreva no iPhone e leia na tela grande do carro</span></span></button><h2>Jogos</h2><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b> <span class="chip exec">novo</span><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
+ return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<button class="rowcard mt" data-act="go" data-s="board"><span class="rcic">${ic("car",22)}</span><span style="flex:1"><b>Tela do Tesla</b><br><span class="lbl">Escreva no iPhone e leia na tela grande do carro</span></span></button><h2>Jogos</h2><button class="rowcard" data-act="game" data-g="reply" style="margin:0 0 10px"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Responder ao cliente</b> <span class="chip exec">novo</span><br><span class="lbl">O cliente pergunta, você responde e vê 3 respostas certas</span></span></button><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
  <h2>Conversa</h2><button class="rowcard" data-act="go" data-s="sims"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Simulação real</b><br><span class="lbl">Responda ao passageiro em ${SIMS.length} situações. ${simDone} ${simDone===1?"concluída":"concluídas"}.</span></span></button>
  <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div><button class="rowcard" data-act="go" data-s="mine"><span class="rcic">${ic("plus",22)}</span><span style="flex:1"><b>Minhas frases</b><br><span class="lbl">${S.mine.length?S.mine.length+" "+(S.mine.length===1?"frase sua":"frases suas"):"Adicione as frases que você precisa no carro"}</span></span></button><button class="rowcard" data-act="ask"><span class="rcic">${ic("search",22)}</span><span style="flex:1"><b>Como digo…?</b><br><span class="lbl">Procure em português e veja como se diz em inglês</span></span></button><button class="rowcard" data-act="go" data-s="guide"><span class="rcic">${ic("quiz",22)}</span><span style="flex:1"><b>Can, Could ou May?</b><br><span class="lbl">Dia a dia, educado ou executivo: quando usar cada um</span></span></button>`;
 };
@@ -1016,7 +1070,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.9.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 2.0.0</p>`;
 };
 
 /* ---------- Ações ---------- */
@@ -1074,6 +1128,10 @@ const A={
  myRep:()=>{cur.j++;if(cur.j>=MY[cur.m].s.length){cur.st=2;cur.j=0;}render();window.scrollTo(0,0);if(cur.st===1)speak(MY[cur.m].s[cur.j][0]);},
  myReveal:()=>{const x=$("#myAns");if(x)x.hidden=!x.hidden;},
  myDone:d=>{const ok=d.ok==="1";grade("m"+cur.m,ok);save();checkAch();cur.st=4;cur.ok=ok;render();window.scrollTo(0,0);},
+ rpShow:()=>{if(!Q||Q.type!=="reply"||Q.done)return;const t=$("#rpA");Q.txt=t?t.value:"";Q.done=true;if(t)t.disabled=true;$("#rpOut").innerHTML=replyOut(Q);const pp=$("#ppt");if(pp)pp.hidden=false;},
+ rpRate:d=>{if(!Q||Q.type!=="reply"||Q.rated)return;Q.rated=true;const ok=d.ok==="1";grade(Q.id,ok);
+  if(cur.s==="session"){S.session.n=(S.session.n||0)+1;if(ok)S.session.ok=(S.session.ok||0)+1;}
+  if(cur.s==="game"&&ok)G.ok++;save();checkAch();A.next();},
  boardCopy:()=>copyText(boardLink(),"Link copiado"),
  boardRetry:()=>{setBoardStatus("A guardar…");pushBoard();},
  bMove:d=>{const i=+d.i,j=i+(+d.d),b=S.board.blocks;if(j<0||j>=b.length)return;[b[i],b[j]]=[b[j],b[i]];S.board.synced=false;save();const y=window.scrollY;render();window.scrollTo(0,y);schedulePush(0);},
