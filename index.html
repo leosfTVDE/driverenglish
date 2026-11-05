@@ -83,6 +83,15 @@ p{margin:0}
 .sfield input{border:0;background:transparent;margin:0;padding:0;min-height:50px;outline:none;box-shadow:none}
 textarea{width:100%;min-height:76px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:12px 14px;font:inherit;font-size:16px;margin-top:8px;resize:vertical}
 .res .card{margin-top:10px}
+body.textmode .top,body.textmode nav.tabs{display:none}
+body.textmode main{max-width:1100px;padding:20px 28px 48px}
+.tx-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.tx-head b{flex:1;font-size:22px}
+.tx-head a{color:var(--tx2);font-size:14px;font-weight:600;text-decoration:none;padding:12px 8px}
+.tx-q{font-size:clamp(15px,1.6vw,20px);color:var(--tx2);font-weight:600;margin:26px 0 6px;padding-top:18px;border-top:2px solid var(--line)}
+.tx-s{margin:16px 0}
+.tx-en{font-size:clamp(24px,3.2vw,40px);font-weight:750;line-height:1.2;letter-spacing:-.01em}
+.tx-pt{font-size:clamp(17px,2vw,26px);color:var(--tx2);margin-top:4px;line-height:1.3}
 .say{display:inline-flex;gap:8px;margin-top:12px;align-items:center}
 .link{background:none;border:0;color:var(--pri);font-weight:600;padding:10px 4px;min-height:44px}
 .prog{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin:4px 0 16px}
@@ -862,7 +871,7 @@ V.listen=()=>{
 V.practice=()=>{
  const tile=(g,i,t,d)=>`<button class="tile" data-act="game" data-g="${g}"><span class="ti">${ic(i,22)}</span><b>${t}</b><span>${d}</span></button>`;
  const simDone=SIMS.filter((_,i)=>S.sims[i]).length;
- return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<h2>Jogos</h2><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b> <span class="chip exec">novo</span><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
+ return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<div class="card mt" style="border-style:dashed"><b>Texto em tela cheia</b><p class="note" style="margin-top:4px">Todo o texto das suas respostas, em letra grande, para abrir no navegador do Tesla com o carro parado:</p><div class="en" style="font-size:15px;margin-top:8px;word-break:break-all">${esc(location.host+location.pathname)}#texto</div><a class="btn wide mt" href="#texto">Abrir aqui</a></div><h2>Jogos</h2><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b> <span class="chip exec">novo</span><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
  <h2>Conversa</h2><button class="rowcard" data-act="go" data-s="sims"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Simulação real</b><br><span class="lbl">Responda ao passageiro em ${SIMS.length} situações. ${simDone} ${simDone===1?"concluída":"concluídas"}.</span></span></button>
  <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div><button class="rowcard" data-act="go" data-s="mine"><span class="rcic">${ic("plus",22)}</span><span style="flex:1"><b>Minhas frases</b><br><span class="lbl">${S.mine.length?S.mine.length+" "+(S.mine.length===1?"frase sua":"frases suas"):"Adicione as frases que você precisa no carro"}</span></span></button><button class="rowcard" data-act="ask"><span class="rcic">${ic("search",22)}</span><span style="flex:1"><b>Como digo…?</b><br><span class="lbl">Procure em português e veja como se diz em inglês</span></span></button><button class="rowcard" data-act="go" data-s="guide"><span class="rcic">${ic("quiz",22)}</span><span style="flex:1"><b>Can, Could ou May?</b><br><span class="lbl">Dia a dia, educado ou executivo: quando usar cada um</span></span></button>`;
 };
@@ -961,7 +970,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.7.0</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 1.8.0</p>`;
 };
 
 /* ---------- Ações ---------- */
@@ -1019,6 +1028,7 @@ const A={
  myRep:()=>{cur.j++;if(cur.j>=MY[cur.m].s.length){cur.st=2;cur.j=0;}render();window.scrollTo(0,0);if(cur.st===1)speak(MY[cur.m].s[cur.j][0]);},
  myReveal:()=>{const x=$("#myAns");if(x)x.hidden=!x.hidden;},
  myDone:d=>{const ok=d.ok==="1";grade("m"+cur.m,ok);save();checkAch();cur.st=4;cur.ok=ok;render();window.scrollTo(0,0);},
+ txTheme:()=>{S.settings.theme=S.settings.theme==="dark"?"light":"dark";save();applyTheme();},
  ask:()=>{go("ask",{q:""});const i=$("#askQ");if(i)i.focus();},
  copyQ:()=>copyText(claudeQ(cur.q||"")),
  copyQ2:()=>{const v=($("#mPt").value||"").trim();if(!v){$("#mErr").textContent="Escreva primeiro a frase em português.";return;}copyText(claudeQ(v));},
@@ -1055,8 +1065,15 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 /* ---------- Início ---------- */
 if(TTS){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices();if(cur.s==="settings"){const y=window.scrollY;render();window.scrollTo(0,y);}};}
 if(window.matchMedia)matchMedia("(prefers-color-scheme: dark)").addEventListener&&matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme);
-applyTheme();render();
-if(!S.onboarded){$("#modal").innerHTML=`<div class="overlay"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="obt">${LOGO}<h2 id="obt" style="margin-top:14px">Bem-vindo ao DriverEnglish</h2><p class="lbl" style="font-size:15px">Inglês para o dia a dia com passageiros, em 10 minutos por dia. Sem conta e sem pressão.</p><label class="lbl" for="nm" style="display:block;margin-top:16px">Como você quer ser chamado?</label><input id="nm" type="text" maxlength="30" autocomplete="given-name" placeholder="Seu nome"><div class="safe">${ic("car",22)}<span>Pratique sempre com o carro parado.</span></div><button class="btn pri wide mt" data-act="onboard">Começar</button></div></div>`;}
+applyTheme();
+window.addEventListener("hashchange",()=>{if(location.hash==="#texto"||document.body.classList.contains("textmode"))location.reload();});
+const TEXT_MODE=location.hash==="#texto";
+if(TEXT_MODE){
+ document.body.classList.add("textmode");
+ document.title="DriverEnglish · Texto";
+ $("#view").innerHTML=`<div class="tx-head">${LOGO}<b>Minhas respostas</b><button class="btn" data-act="txTheme">Claro / Escuro</button><a href="./">Voltar ao app</a></div>`+MY.map((m,i)=>`<section><div class="tx-q">${i+1}. ${esc(m.q)}</div>${m.s.map(x=>`<div class="tx-s"><div class="tx-en">${esc(x[0])}</div><div class="tx-pt">${esc(x[1])}</div></div>`).join("")}</section>`).join("");
+}else render();
+if(!TEXT_MODE&&!S.onboarded){$("#modal").innerHTML=`<div class="overlay"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="obt">${LOGO}<h2 id="obt" style="margin-top:14px">Bem-vindo ao DriverEnglish</h2><p class="lbl" style="font-size:15px">Inglês para o dia a dia com passageiros, em 10 minutos por dia. Sem conta e sem pressão.</p><label class="lbl" for="nm" style="display:block;margin-top:16px">Como você quer ser chamado?</label><input id="nm" type="text" maxlength="30" autocomplete="given-name" placeholder="Seu nome"><div class="safe">${ic("car",22)}<span>Pratique sempre com o carro parado.</span></div><button class="btn pri wide mt" data-act="onboard">Começar</button></div></div>`;}
 if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
 </script>
 </body>
