@@ -525,6 +525,33 @@ const RQ=[
 ["Thank you, have a nice day!","Obrigado, tenha um bom dia!","You ___!",[["you","thank"]],["You too!","Para você também!"],["Thank you, you too!","Obrigado, para você também!"],["Thank you! Enjoy Lisbon!","Obrigado! Aproveite Lisboa!"]]
 ];
 const REPLY=RQ.map((r,i)=>{const o={id:"r"+i,q:r[0],qpt:r[1],frame:r[2],keys:r[3],a:[r[4],r[5],r[6]],en:r[5][0],pt:r[5][1]};byId[o.id]=o;return o;});
+const SOSD=[
+["Sorry, can you say that again?","Desculpe, pode repetir?","Não entendi","O cliente falou e você não entendeu nada."],
+["Can you speak slower, please?","Pode falar mais devagar, por favor?","Não entendi","O cliente fala muito rápido."],
+["Sorry, I don’t understand.","Desculpe, não entendi.","Não entendi","Você ouviu, mas não entendeu o sentido."],
+["Can you write it for me?","Pode escrever para mim?","Não entendi","O cliente diz um nome de rua difícil."],
+["Let me see…","Deixa eu ver…","Preciso de tempo","O cliente pergunta algo e você precisa pensar um pouco."],
+["One moment, please.","Um momento, por favor.","Preciso de tempo","Você precisa de um momento para mexer no GPS."],
+["Let me check.","Deixa eu verificar.","Preciso de tempo","O cliente pergunta se o restaurante está aberto."],
+["Good question!","Boa pergunta!","Preciso de tempo","O cliente faz uma pergunta difícil sobre Lisboa."],
+["Do you mean the airport?","Quer dizer o aeroporto?","Confirmar","O cliente falou “terminal” e você acha que é o aeroporto."],
+["Is that right?","É isso?","Confirmar","Você repetiu o que entendeu e quer confirmar."],
+["This address, right?","Este endereço, certo?","Confirmar","Você mostra o GPS ao cliente para confirmar o destino."],
+["How do you say … in English?","Como se diz … em inglês?","Não sei a palavra","Você não sabe uma palavra em inglês e quer perguntar."],
+["I don’t know this word.","Não conheço esta palavra.","Não sei a palavra","O cliente usa uma palavra que você não conhece."],
+["Can you show me on the map?","Pode me mostrar no mapa?","Não sei a palavra","O cliente explica um lugar que você não conhece."],
+["No problem.","Sem problema.","Responder rápido","O cliente pede desculpa porque se atrasou."]
+];
+const SOS=SOSD.map((x,i)=>{const o={id:"s"+i,en:x[0],pt:x[1],cat:x[2],sit:x[3],why:"",ex:""};byId[o.id]=o;return o;});
+const MONO=[
+{t:"My workday",pt:"Meu dia de trabalho",f:["Today I worked…","I had … rides.","The traffic was…","My best client was…"],e:[["Today I worked eight hours.","Hoje trabalhei oito horas."],["I had twelve rides.","Fiz doze corridas."],["The traffic was bad in the morning.","O trânsito estava ruim de manhã."],["My best client was from Canada.","Meu melhor cliente era do Canadá."]]},
+{t:"My car",pt:"O meu carro",f:["My car is a…","It’s very…","I always keep it…","Clients like…"],e:[["My car is a Tesla.","Meu carro é um Tesla."],["It’s very quiet and comfortable.","É bem silencioso e confortável."],["I always keep it clean.","Sempre mantenho ele limpo."],["Clients like the big screen.","Os clientes gostam da tela grande."]]},
+{t:"Lisbon",pt:"Lisboa",f:["Lisbon is…","My favorite place is…","Tourists love…","I recommend…"],e:[["Lisbon is a beautiful city.","Lisboa é uma cidade linda."],["My favorite place is Belém.","Meu lugar favorito é Belém."],["Tourists love the yellow trams.","Os turistas adoram os elétricos amarelos."],["I recommend Sintra for one day.","Recomendo Sintra para um dia."]]},
+{t:"My weekend",pt:"Meu fim de semana",f:["On Saturday I…","On Sunday I…","I like to…","Next weekend I want to…"],e:[["On Saturday I worked.","No sábado eu trabalhei."],["On Sunday I rested with my family.","No domingo descansei com a família."],["I like to walk by the river.","Gosto de caminhar perto do rio."],["Next weekend I want to go to the beach.","No próximo fim de semana quero ir à praia."]]},
+{t:"The airport",pt:"O aeroporto",f:["I go to the airport…","I wait at…","Clients usually…","The worst part is…"],e:[["I go to the airport every day.","Vou ao aeroporto todo dia."],["I wait at arrivals.","Espero no desembarque."],["Clients usually have a lot of luggage.","Os clientes normalmente têm muita bagagem."],["The worst part is the traffic.","A pior parte é o trânsito."]]},
+{t:"Food",pt:"Comida",f:["My favorite food is…","In Portugal I like…","I don’t like…","I recommend…"],e:[["My favorite food is Brazilian barbecue.","Minha comida favorita é churrasco."],["In Portugal I like grilled fish.","Em Portugal gosto de peixe grelhado."],["I don’t like very spicy food.","Não gosto de comida muito apimentada."],["I recommend pastel de nata.","Recomendo o pastel de nata."]]},
+{t:"My English",pt:"O meu inglês",f:["I’m learning…","Every day I…","It’s difficult to…","I want to…"],e:[["I’m learning English for my job.","Estou aprendendo inglês para o trabalho."],["Every day I practice ten minutes.","Todo dia pratico dez minutos."],["It’s difficult to understand fast people.","É difícil entender quem fala rápido."],["I want to talk more with my clients.","Quero conversar mais com os meus clientes."]]}
+];
 const MY=[
 {t:"Apresentação",q:"Introduce yourself. How long have you been driving passengers? What do you like about this job?",qpt:"Apresente-se. Há quanto tempo você dirige com passageiros? O que você gosta neste trabalho?",s:[
 ["Hi, my name is Leonardo Favero.","Oi, meu nome é Leonardo Favero.",""],
@@ -681,24 +708,26 @@ const TABS=[["home","Início","home"],["practice","Praticar","cards"],["listen",
 let cur={s:"home"};const stack=[];let Q=null,G=null,Lc=0,gk=0,lastAct=Date.now();
 function go(s,p={}){if(TABS.some(t=>t[0]===s))stack.length=0;else stack.push(cur);cur=Object.assign({s},p);render();window.scrollTo(0,0);}
 function back(){cur=stack.pop()||{s:"home"};render();window.scrollTo(0,0);}
-const GNAMES={reply:"Responder ao cliente",mine:"Minhas frases",dict:"Ditado",flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
+const GNAMES={sos:"Frases salva-vidas",reply:"Responder ao cliente",mine:"Minhas frases",dict:"Ditado",flash:"Flashcards",quiz:"Quiz",fill:"Completar frases",build:"Montar frases",sim:"Simulação real"};
 function header(){
  if(TABS.some(t=>t[0]===cur.s))return `<div class="brand">${LOGO}<span>DriverEnglish</span></div><button class="ibtn ghost" data-act="go" data-s="settings" aria-label="Configurações">${ic("user",24)}</button>`;
- let t={settings:"Configurações",library:"Vocabulário",phrases:"Frases profissionais",sims:"Simulação real",guide:"Can, Could ou May?",ask:"Como digo em inglês?",mine:"Minhas frases",mineAdd:"Nova frase",board:"Tela do Tesla"}[cur.s]||"";
+ let t={settings:"Configurações",library:"Vocabulário",phrases:"Frases profissionais",sims:"Simulação real",guide:"Can, Could ou May?",ask:"Como digo em inglês?",mine:"Minhas frases",mineAdd:"Nova frase",board:"Tela do Tesla",sos:"Frases salva-vidas",shadow:"Shadowing",mono:"Monólogo do dia"}[cur.s]||"";
  if(cur.s==="category")t=CATS[cur.c].n;
  if(cur.s==="game")t=G.type==="sim"?SIMS[G.si].t:GNAMES[G.type];
  if(cur.s==="session")t=S.session&&S.session.short?"Sessão de 5 minutos":"Sessão de hoje";
  if(cur.s==="myrun")t=MY[cur.m].t;
- const x=cur.s==="session"||cur.s==="game"||cur.s==="myrun";
+ if(cur.s==="shrun"){const sx=shadowSources().find(x=>x.k===cur.k);t=sx?sx.t:"Shadowing";}
+ const x=cur.s==="session"||cur.s==="game"||cur.s==="myrun"||cur.s==="shrun";
  return `<button class="ibtn ghost" data-act="back" aria-label="${x?"Fechar":"Voltar"}">${ic(x?"close":"back",24)}</button><div class="ttl">${esc(t)}</div><span style="width:44px"></span>`;
 }
 function render(){
- document.body.classList.toggle("focus",cur.s==="session"||cur.s==="game"||cur.s==="myrun");
+ document.body.classList.toggle("focus",cur.s==="session"||cur.s==="game"||cur.s==="myrun"||cur.s==="shrun");
  $("#top").innerHTML=header();
  $("#view").innerHTML=(V[cur.s]||V.home)();
- const parent={library:"practice",category:"practice",phrases:"practice",sims:"practice",guide:"practice",myrun:"practice",ask:"home",mine:"practice",mineAdd:"practice",board:"practice"}[cur.s]||cur.s;
+ const parent={library:"practice",category:"practice",phrases:"practice",sims:"practice",guide:"practice",myrun:"practice",ask:"home",mine:"practice",mineAdd:"practice",board:"practice",sos:"practice",shadow:"practice",shrun:"practice",mono:"practice"}[cur.s]||cur.s;
  $("#tabs").innerHTML=TABS.map(t=>`<button class="tab${parent===t[0]?" on":""}" data-act="tab" data-tab="${t[0]}"${parent===t[0]?' aria-current="page"':""}>${ic(t[2],24)}${t[1]}</button>`).join("");
 }
+function autoSh(){if(Q&&Q.say&&TTS)speak(Q.say);}
 function autoSpeak(){if(Q&&Q.auto&&Q.say&&TTS)speak(Q.say,false,Q.acc);}
 
 /* ---------- Construtores de exercícios ---------- */
@@ -840,6 +869,7 @@ function buildSession(short){
  if(!short){const nw=unseen(WORDS).slice(0,4);nw.forEach(w=>st.push({k:"learn",id:w.id}));nw.forEach(w=>st.push({k:"mcw",id:w.id,dir:"en"}));}
  const ls=[...new Set([...dueList(LISTEN),...unseen(LISTEN)])];
  const lsel=(ls.length?ls:pickN(LISTEN,3)).slice(0,short?2:3);lsel.forEach(l=>st.push({k:"listen",id:l.id}));
+ if(!short){const sx=dueList(SOS)[0]||unseen(SOS)[0];if(sx)st.push({k:"sos",id:sx.id});}
  if(!short){const rp=dueList(REPLY)[0]||unseen(REPLY)[0];if(rp)st.push({k:"reply",id:rp.id});}
  if(!short&&S.mine.length){const mp=S.mine.map(m=>byId[m.id]).filter(Boolean);const pick=dueList(mp)[0]||unseen(mp)[0];if(pick)st.push({k:"build",id:pick.id});}
  if(!short){const dc=[...dueList(LISTEN),...unseen(LISTEN),...pickN(LISTEN,LISTEN.length)].filter(l=>dictOk(l)&&!lsel.includes(l));if(dc.length)st.push({k:"dict",id:dc[0].id});}
@@ -853,7 +883,7 @@ function buildSession(short){
 }
 function stepQ(st){
  switch(st.k){case"mcw":return makeMCWord(byId[st.id],st.dir);case"learn":return makeLearn(byId[st.id]);case"listen":return makeListen(byId[st.id]);
- case"phrase":return makePhrase(byId[st.id]);case"dict":return makeDict(byId[st.id]);case"reply":return makeReply(byId[st.id]);case"build":return makeBuild(byId[st.id]);case"fill":return makeFill(byId[st.id]);case"sim":return makeSim(st.si,st.ti);}
+ case"phrase":return makePhrase(byId[st.id]);case"dict":return makeDict(byId[st.id]);case"reply":return makeReply(byId[st.id]);case"sos":return makeSos(byId[st.id]);case"build":return makeBuild(byId[st.id]);case"fill":return makeFill(byId[st.id]);case"sim":return makeSim(st.si,st.ti);}
 }
 function startSession(short){
  const ses=S.session&&S.session.date===todayStr()?S.session:null;
@@ -876,6 +906,7 @@ function practicePhrase(ex,shortOnly){
 function gameQ(){
  const g=G;
  if(g.type==="sim")return makeSim(g.si,g.n);
+ if(g.type==="sos"){const pool=SOS.filter(x=>!g.used.has(x.id));const d=dueList(pool),u=unseen(pool);const x=d[0]||u[0]||pickN(pool,1)[0];g.used.add(x.id);return makeSos(x);}
  if(g.type==="reply"){const pool=REPLY.filter(r=>!g.used.has(r.id));const d=dueList(pool),u=unseen(pool);const r=d[0]||u[0]||pickN(pool,1)[0];g.used.add(r.id);return makeReply(r);}
  if(g.type==="mine"){const pool=S.mine.map(m=>byId[m.id]).filter(p=>p&&!g.used.has(p.id));const d=dueList(pool),u=unseen(pool);const p=d[0]||u[0]||pickN(pool,1)[0];g.used.add(p.id);return makeBuild(p);}
  if(g.type==="dict"){const pool=LISTEN.filter(l=>dictOk(l)&&!g.used.has(l.id));const d=dueList(pool),u=unseen(pool);const l=d[0]||u[0]||pickN(pool,1)[0];g.used.add(l.id);return makeDict(l);}
@@ -885,7 +916,7 @@ function gameQ(){
  return g.type==="fill"?makeFill(p):makeBuild(p);
 }
 function startGame(type,si){
- gk++;G={type,si:si===undefined?null:+si,n:0,ok:0,used:new Set(),total:type==="sim"?SIMS[+si].turns.length:type==="dict"?8:type==="mine"?Math.min(10,S.mine.length):10};
+ gk++;G={type,si:si===undefined?null:+si,n:0,ok:0,used:new Set(),total:type==="sim"?SIMS[+si].turns.length:type==="dict"?8:type==="mine"?Math.min(10,S.mine.length):type==="sos"?8:10};
  if(cur.s==="game"){cur={s:"game"};render();}else go("game");
  window.scrollTo(0,0);autoSpeak();
 }
@@ -961,7 +992,7 @@ V.listen=()=>{
 V.practice=()=>{
  const tile=(g,i,t,d)=>`<button class="tile" data-act="game" data-g="${g}"><span class="ti">${ic(i,22)}</span><b>${t}</b><span>${d}</span></button>`;
  const simDone=SIMS.filter((_,i)=>S.sims[i]).length;
- return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<button class="rowcard mt" data-act="go" data-s="board"><span class="rcic">${ic("car",22)}</span><span style="flex:1"><b>Tela do Tesla</b><br><span class="lbl">Escreva no iPhone e leia na tela grande do carro</span></span></button><h2>Jogos</h2><button class="rowcard" data-act="game" data-g="reply" style="margin:0 0 10px"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Responder ao cliente</b> <span class="chip exec">novo</span><br><span class="lbl">O cliente pergunta, você responde e vê 3 respostas certas</span></span></button><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
+ return `<h2 style="margin-top:6px">Minhas respostas</h2><p class="lbl" style="margin-top:-4px">As perguntas do vídeo de seleção</p>`+MY.map((m,i)=>`<button class="rowcard" data-act="myStart" data-m="${i}"><span class="rcic"><b>${i+1}</b></span><span style="flex:1;min-width:0"><b>${esc(m.t)}</b><br><span class="lbl">“${esc(m.q)}”</span><div class="bar"><div style="width:${Math.round(myProg(i)*100)}%"></div></div></span></button>`).join("")+`<button class="rowcard mt" data-act="go" data-s="board"><span class="rcic">${ic("car",22)}</span><span style="flex:1"><b>Tela do Tesla</b><br><span class="lbl">Escreva no iPhone e leia na tela grande do carro</span></span></button><h2>Falar sem travar</h2><button class="rowcard" data-act="go" data-s="sos"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Frases salva-vidas</b> <span class="chip exec">novo</span><br><span class="lbl">O que dizer quando não entender ou travar</span></span></button><button class="rowcard" data-act="go" data-s="shadow"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Shadowing</b> <span class="chip exec">novo</span><br><span class="lbl">Repita junto com o áudio, em 3 fases</span></span></button><button class="rowcard" data-act="go" data-s="mono"><span class="rcic">${ic("mic",22)}</span><span style="flex:1"><b>Monólogo do dia</b> <span class="chip exec">novo</span><br><span class="lbl">Fale sozinho 30 segundos sobre um tema</span></span></button><h2>Jogos</h2><button class="rowcard" data-act="game" data-g="reply" style="margin:0 0 10px"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Responder ao cliente</b><br><span class="lbl">O cliente pergunta, você responde e vê 3 respostas certas</span></span></button><button class="rowcard" data-act="game" data-g="dict" style="margin:0 0 10px"><span class="rcic">${ic("ear",22)}</span><span style="flex:1"><b>Ditado</b><br><span class="lbl">Ouça o passageiro e monte a frase, sem ver o texto</span></span></button><div class="grid2">${tile("flash","cards","Flashcards","Veja a palavra e lembre o significado")}${tile("quiz","quiz","Quiz","Escolha a tradução certa")}${tile("fill","fill","Completar","Escolha a palavra que falta")}${tile("build","blocks","Montar frases","Monte a frase em inglês")}</div>
  <h2>Conversa</h2><button class="rowcard" data-act="go" data-s="sims"><span class="rcic">${ic("chat",22)}</span><span style="flex:1"><b>Simulação real</b><br><span class="lbl">Responda ao passageiro em ${SIMS.length} situações. ${simDone} ${simDone===1?"concluída":"concluídas"}.</span></span></button>
  <h2>Biblioteca</h2><div class="grid2"><button class="tile" data-act="go" data-s="library"><span class="ti">${ic("book",22)}</span><b>Vocabulário</b><span>${WORDS.length} palavras do trabalho</span></button><button class="tile" data-act="go" data-s="phrases"><span class="ti">${ic("quote",22)}</span><b>Frases</b><span>${PHRASES.length} frases profissionais</span></button></div><button class="rowcard" data-act="go" data-s="mine"><span class="rcic">${ic("plus",22)}</span><span style="flex:1"><b>Minhas frases</b><br><span class="lbl">${S.mine.length?S.mine.length+" "+(S.mine.length===1?"frase sua":"frases suas"):"Adicione as frases que você precisa no carro"}</span></span></button><button class="rowcard" data-act="ask"><span class="rcic">${ic("search",22)}</span><span style="flex:1"><b>Como digo…?</b><br><span class="lbl">Procure em português e veja como se diz em inglês</span></span></button><button class="rowcard" data-act="go" data-s="guide"><span class="rcic">${ic("quiz",22)}</span><span style="flex:1"><b>Can, Could ou May?</b><br><span class="lbl">Dia a dia, educado ou executivo: quando usar cada um</span></span></button>`;
 };
@@ -985,6 +1016,7 @@ function searchIndex(){
  WORDS.forEach(w=>L.push({k:"Palavra",en:w.en,pt:w.pt,ex:w.ex,expt:w.expt,h:SW(w.pt+" "+w.expt),e:SW(w.en+" "+w.ex)}));
  PHRASES.forEach(p=>L.push({k:"Frase",en:p.en,pt:p.pt,alt:p.ex,h:SW(p.pt),e:SW(p.en+" "+(p.ex||""))}));
  LISTEN.forEach(l=>{L.push({k:"O cliente diz",en:l.en,pt:l.pt,h:SW(l.pt),e:SW(l.en)});L.push({k:"Resposta",en:l.r,pt:l.rpt,h:SW(l.rpt),e:SW(l.r)});});
+ SOS.forEach(x=>L.push({k:"Salva-vidas",en:x.en,pt:x.pt,h:SW(x.pt+" "+x.sit),e:SW(x.en)}));
  MY.forEach(m=>m.s.forEach(x=>L.push({k:"Minhas respostas",en:x[0],pt:x[1],h:SW(x[1]),e:SW(x[0])})));
  return L;
 }
@@ -1032,6 +1064,60 @@ V.board=()=>{ensureBoard();const b=S.board,link=boardLink();
  <button class="btn pri wide mt" data-act="bAdd">${ic("plus",18)} Adicionar bloco</button>
  <button class="link" data-act="bNewLink" style="margin-top:16px">Gerar um link novo</button><p class="note" style="margin-top:0">Use só se o link tiver chegado a quem não devia. O link antigo deixa de ser atualizado.</p>`;
 };
+const splitS=t=>String(t||"").split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(Boolean);
+function shadowSources(){
+ const L=[];
+ MY.forEach((m,i)=>L.push({k:"my"+i,t:m.t,sub:"Minhas respostas",s:m.s.map(x=>[x[0],x[1]])}));
+ if(S.board&&S.board.blocks&&S.board.blocks.length){const out=[];S.board.blocks.forEach(b=>{const e=splitS(b.en),p=splitS(b.pt);e.forEach((x,i)=>out.push([x,e.length===p.length?p[i]:(i===0?b.pt:"")]));});if(out.length)L.push({k:"board",t:"Tela do Tesla",sub:"O seu texto do carro",s:out});}
+ if(S.mine.length)L.push({k:"mine",t:"Minhas frases",sub:S.mine.length+(S.mine.length===1?" frase":" frases"),s:S.mine.map(m=>[m.en,m.pt])});
+ L.push({k:"sos",t:"Frases salva-vidas",sub:SOS.length+" frases",s:SOS.map(x=>[x.en,x.pt])});
+ L.push({k:"car",t:"No carro",sub:"Frases de ações no carro",s:PHRASES.filter(p=>p.ctx==="carro").map(p=>[p.en,p.pt])});
+ return L;
+}
+V.sos=()=>`<p class="lbl" style="font-size:15px">Frases para usar quando você travar: não entendeu, precisa de tempo, quer confirmar ou não sabe a palavra.</p><button class="btn pri wide mt" data-act="game" data-g="sos">${ic("quiz",18)} Jogo rápido: o que você diz?</button>`+[...new Set(SOS.map(x=>x.cat))].map(c=>`<h2>${esc(c)}</h2>`+SOS.filter(x=>x.cat===c).map(x=>`<div class="card mt"><div class="en">${esc(x.en)}</div><div class="lbl" style="font-size:15px">${esc(x.pt)}</div><div class="note" style="margin-top:6px">Quando: ${esc(x.sit)}</div>${sayBtns(x.en)}</div>`).join("")).join("");
+V.shadow=()=>`<p class="lbl" style="font-size:15px">Shadowing é repetir junto com o áudio, quase ao mesmo tempo, imitando o som e o ritmo. São 3 fases: ouvir, repetir com texto e repetir sem texto.</p><div class="tipb mt"><b>Dica:</b> 10 minutos por dia já fazem diferença. Use o “Lento” à vontade no começo.</div>`+shadowSources().map(x=>`<button class="rowcard" data-act="shStart" data-k="${x.k}"><span style="flex:1"><b>${esc(x.t)}</b><br><span class="lbl">${esc(x.sub)} · ${x.s.length} ${x.s.length===1?"frase":"frases"}</span></span></button>`).join("");
+V.shrun=()=>{
+ const src=shadowSources().find(x=>x.k===cur.k);if(!src)return `<p class="note">Este texto não existe mais.</p>`;
+ const n=src.s.length,ph=cur.ph,full=src.s.map(x=>x[0]).join(" ");
+ const steps=["Ouvir","Com texto","Sem texto"];
+ const chips=ph<3?`<div class="steps">${steps.map((t,k)=>`<button class="stp${k<ph?" d":k===ph?" c":""}" data-act="shPhase" data-ph="${k}"><i>${k<ph?ic("check",14):k+1}</i>${t}</button>`).join("")}</div>`:"";
+ const audio=TTS?`<button class="btn" data-act="sayQ">${ic("vol",18)} Ouvir</button><button class="btn" data-act="sayQ" data-slow="1">Lento</button>`:"";
+ if(ph===0){Q={key:"SH0",say:full};return chips+`<div class="card"><div class="lbl">Ouça tudo uma ou duas vezes, só prestando atenção no som.</div>${src.s.map(x=>`<div style="margin-top:10px"><div class="en">${esc(x[0])}</div>${x[1]?`<div class="lbl" style="font-size:15px">${esc(x[1])}</div>`:""}</div>`).join("")}<div class="row mt">${audio}</div></div><button class="btn pri wide mt" data-act="shPhase" data-ph="1">Começar: repetir com texto</button>`;}
+ if(ph===1||ph===2){const x=src.s[cur.j];Q={key:"SH"+ph+":"+cur.j,say:x[0]};
+  const txt=`<div class="big2">${esc(x[0])}</div>${x[1]?`<div class="pt">${esc(x[1])}</div>`:""}`;
+  return chips+`<div class="lbl" style="margin-bottom:8px">Frase ${cur.j+1} de ${n}</div><div class="card center">${TTS?`<div class="playrow"><button class="playbig" data-act="sayQ" aria-label="Ouvir">${ic("play",36)}</button><button class="slow" data-act="sayQ" data-slow="1" aria-label="Ouvir devagar">Lento</button></div>`:""}
+  ${ph===1?`<div style="text-align:left;margin-top:8px">${txt}</div><p class="note">Toque no play e repita junto, quase ao mesmo tempo. Pode repetir várias vezes.</p>`:`<button class="btn wide mt" data-act="shPeek">Espiar o texto</button><div id="shTxt" style="text-align:left;margin-top:10px" hidden>${txt}</div><p class="note">Agora sem olhar: ouça e repita junto.</p>`}</div>
+  <button class="btn pri wide mt" data-act="shNext">${ph===1?"Repeti junto · próxima":"Repeti sem olhar · próxima"}</button>`;}
+ return `<div class="card center mt2"><div class="done-ic">${ic("check",34)}</div><h1>Shadowing feito!</h1><p class="lbl" style="font-size:15px">Repetir o mesmo texto vários dias seguidos é o que deixa a fala natural.</p></div><button class="btn pri wide mt2" data-act="shPhase" data-ph="2">Repetir sem texto de novo</button><button class="btn wide mt" data-act="back">Voltar</button>`;
+};
+let monoTimer=null,monoStart=0;
+function monoIdx(){return cur.mi!=null?cur.mi:tNum()%MONO.length;}
+V.mono=()=>{const i=monoIdx(),m=MONO[i],done=S.mono&&S.mono[todayStr()];
+ return `<div class="card" style="background:var(--soft);border:0"><div class="lbl">Tema de hoje</div><div class="en" style="font-size:20px;margin-top:2px">${esc(m.t)}</div><div class="lbl" style="font-size:15px">${esc(m.pt)} · fale uns 30 segundos</div></div>
+ <div class="card mt"><b style="font-size:14px">Moldes para usar</b>${m.f.map(f=>`<div class="en" style="font-size:16px;margin-top:8px">${esc(f)}</div>`).join("")}</div>
+ <div class="center mt2"><div id="mtime" class="ringtxt" style="font-size:28px">0:00</div>
+ <button class="btn ${REC?"":"pri "}wide mt" id="monoBtn" data-act="monoRec">${ic("mic",18)} ${REC?"Gravar e falar":"Começar a falar"}</button><div id="mrec" class="row mt" style="justify-content:center"></div></div>
+ <p class="note center">Fale em voz alta usando os moldes. Errar faz parte: o importante é não parar.</p>
+ <button class="btn wide mt" data-act="monoEx">Ver um exemplo de monólogo</button>
+ <div id="monoEx" class="ex" hidden>${m.e.map(x=>`<div class="en" style="margin-top:6px">${esc(x[0])}</div><div class="lbl">${esc(x[1])}</div>`).join("")}${sayBtns(m.e.map(x=>x[0]).join(" "))}</div>
+ <div class="grid2 mt2"><button class="btn" data-act="monoNext">Outro tema</button><button class="btn pri" data-act="monoDone">${done?ic("check",18)+" Feito hoje":"Terminei"}</button></div>`;};
+function monoTick(){const e=$("#mtime");if(!e)return;const t=Math.floor((Date.now()-monoStart)/1000);e.textContent=Math.floor(t/60)+":"+pad(t%60);if(t>=60&&mr&&mr.state==="recording")mr.stop();}
+async function monoRec(btn){
+ if(!REC){if(monoTimer){clearInterval(monoTimer);monoTimer=null;btn.innerHTML=ic("mic",18)+" Começar a falar";return;}monoStart=Date.now();monoTimer=setInterval(monoTick,250);btn.innerHTML=ic("close",18)+" Parar";return;}
+ if(mr&&mr.state==="recording"){mr.stop();return;}
+ try{const st=await navigator.mediaDevices.getUserMedia({audio:true});const ch=[];mr=new MediaRecorder(st);
+  mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data);};
+  mr.onstop=()=>{st.getTracks().forEach(t=>t.stop());clearInterval(monoTimer);monoTimer=null;if(recUrl)URL.revokeObjectURL(recUrl);recUrl=URL.createObjectURL(new Blob(ch,{type:mr.mimeType||"audio/mp4"}));
+   const b=$("#monoBtn");if(b){b.classList.remove("on");b.innerHTML=ic("mic",18)+" Gravar de novo";}
+   const box=$("#mrec");if(box)box.innerHTML=`<button class="btn" data-act="playRec">${ic("play",16)} Ouvir minha voz</button>`;};
+  mr.start();monoStart=Date.now();monoTimer=setInterval(monoTick,250);btn.classList.add("on");btn.innerHTML=ic("mic",18)+" Parar gravação";
+ }catch(e){toast("Não foi possível usar o microfone. Verifique a permissão.");}
+}
+function makeSos(x){
+ return {type:"mc",id:x.id,say:x.en,sayAfter:x.en,top:`<div class="lbl">Situação</div><div class="big2">${esc(x.sit)}</div><div class="lbl mt">O que você diz?</div>`,
+  opts:shuffle([{t:x.en,ok:true},...pickN(SOS.filter(o=>o.cat!==x.cat),2).map(o=>({t:o.en,ok:false}))]),
+  after:`<div class="ex"><div class="en">${esc(x.en)}</div><div class="lbl" style="font-size:15px">${esc(x.pt)}</div>${sayBtns(x.en)}</div>`};
+}
 V.sims=()=>`<p class="lbl">O passageiro fala e você escolhe a melhor resposta. Depois, ouça e repita.</p>`+SIMS.map((s,i)=>`<button class="rowcard" data-act="game" data-g="sim" data-si="${i}"><span style="flex:1"><b>${esc(s.t)}</b><br><span class="lbl">${s.turns.length} falas</span></span>${S.sims[i]?`<span class="okc">${ic("check",22)}</span>`:""}</button>`).join("");
 V.library=()=>`<p class="lbl">Palavras organizadas por tema. Toque num tema para ver, ouvir e marcar as que já sabe.</p>`+CATS.map((c,ci)=>{const ws=WORDS.filter(w=>w.cat===ci),l=ws.filter(w=>learned(w.id)).length;return `<button class="rowcard" data-act="go" data-s="category" data-c="${ci}"><span style="flex:1"><b>${esc(c.n)}</b><div class="bar"><div style="width:${l/ws.length*100}%"></div></div><span class="lbl">${l} de ${ws.length} aprendidas</span></span></button>`;}).join("");
 V.category=()=>WORDS.filter(w=>w.cat===cur.c).map(w=>`<div class="card mt"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><div class="en" style="font-size:20px">${esc(w.en)}</div><div class="pron">${esc(w.pr)}</div><div class="pt" style="margin-top:4px">${esc(w.pt)}</div></div>${TTS?`<button class="ibtn" data-act="say" data-t="${esc(w.en)}" aria-label="Ouvir ${esc(w.en)}">${ic("vol",20)}</button>`:""}</div><div class="ex"><div>${esc(w.ex)}</div><div class="lbl">${esc(w.expt)}</div>${sayBtns(w.ex)}</div><button class="btn wide mt${learned(w.id)?" sel":""}" data-act="known" data-id="${w.id}" style="${learned(w.id)?"color:var(--ok);border-color:var(--ok)":""}">${learned(w.id)?ic("check",18)+" Aprendida":"Marcar como aprendida"}</button></div>`).join("");
@@ -1069,7 +1155,7 @@ V.settings=()=>{
  <p class="note">Para vozes mais naturais e mais sotaques no iPhone: abra Ajustes e pesquise “Vozes”. Ou vá em Ajustes › Acessibilidade › Ler e Falar › Vozes › Inglês (em versões antigas do iOS: Conteúdo Falado). Baixe vozes “Melhorada” ou “Premium” e depois feche e reabra o app.</p>
  <div class="safe">${ic("car",22)}<span>Use o app só com o carro parado.</span></div>
  <h2>Lembrete diário</h2><p class="note" style="margin-top:0">Crie um lembrete no app Lembretes do iPhone, por exemplo “Praticar inglês, 10 min”, no horário em que costuma esperar clientes.</p>
- <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 2.0.1</p>`;
+ <button class="btn wide mt2" data-act="reset" style="color:var(--err)">Apagar todo o progresso</button><p class="note center">DriverEnglish 2.1.0</p>`;
 };
 
 /* ---------- Ações ---------- */
@@ -1131,6 +1217,14 @@ const A={
  rpRate:d=>{if(!Q||Q.type!=="reply"||Q.rated)return;Q.rated=true;const ok=d.ok==="1";grade(Q.id,ok);
   if(cur.s==="session"){S.session.n=(S.session.n||0)+1;if(ok)S.session.ok=(S.session.ok||0)+1;}
   if(cur.s==="game"&&ok)G.ok++;save();checkAch();A.next();},
+ shStart:d=>{Q=null;go("shrun",{k:d.k,ph:0,j:0});},
+ shPhase:d=>{cur.ph=+d.ph;cur.j=0;Q=null;render();window.scrollTo(0,0);if(cur.ph===1||cur.ph===2)autoSh();},
+ shNext:()=>{const src=shadowSources().find(x=>x.k===cur.k);if(!src)return;cur.j++;if(cur.j>=src.s.length){if(cur.ph===1){cur.ph=2;cur.j=0;}else{cur.ph=3;S.stats.phrasesPracticed++;save();}}render();window.scrollTo(0,0);if(cur.ph===1||cur.ph===2)autoSh();},
+ shPeek:()=>{const x=$("#shTxt");if(x)x.hidden=!x.hidden;},
+ monoRec:(d,el)=>monoRec(el),
+ monoEx:()=>{const x=$("#monoEx");if(x)x.hidden=!x.hidden;},
+ monoNext:()=>{cur.mi=(monoIdx()+1)%MONO.length;if(monoTimer){clearInterval(monoTimer);monoTimer=null;}render();window.scrollTo(0,0);},
+ monoDone:()=>{S.mono=S.mono||{};S.mono[todayStr()]=1;const d=todayStr();S.days[d]=Math.max(S.days[d]||0,60);save();checkAch();toast("Muito bem! Amanhã tem tema novo.");render();},
  boardCopy:()=>copyText(boardLink(),"Link copiado"),
  boardRetry:()=>{setBoardStatus("A guardar…");pushBoard();},
  bMove:d=>{const i=+d.i,j=i+(+d.d),b=S.board.blocks;if(j<0||j>=b.length)return;[b[i],b[j]]=[b[j],b[i]];S.board.synced=false;save();const y=window.scrollY;render();window.scrollTo(0,y);schedulePush(0);},
@@ -1167,7 +1261,7 @@ $("#imp").addEventListener("change",async e=>{
 let tt;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2600);}
 
 /* ---------- Tempo de estudo ---------- */
-const ACTIVE=new Set(["session","game","listen","category","phrases","myrun"]);let tick=0;
+const ACTIVE=new Set(["session","game","listen","category","phrases","myrun","shrun","mono","sos"]);let tick=0;
 setInterval(()=>{if(document.visibilityState==="visible"&&ACTIVE.has(cur.s)&&Date.now()-lastAct<120000){const d=todayStr();S.days[d]=(S.days[d]||0)+1;if(++tick%10===0)save();}},1000);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"){save();if(TTS)speechSynthesis.cancel();}});
 
